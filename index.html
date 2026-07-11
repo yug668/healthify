@@ -1,0 +1,3001 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HealthifyYou — Your AI-Powered Health Companion</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              primary: {
+                DEFAULT: '#00C853',
+                light: '#33FF7A',
+                dark: '#009624',
+              },
+              darkNavy: {
+                DEFAULT: '#1A1A2E',
+                light: '#24243E',
+                dark: '#0F0F1A',
+                deep: '#06060C',
+              },
+              limeAccent: {
+                DEFAULT: '#BFFF00',
+                dark: '#9AC000',
+              },
+              deepPurple: '#2E0249',
+            },
+            borderRadius: {
+              'xl': '12px',
+            },
+            boxShadow: {
+              'glow': '0 0 15px rgba(0, 200, 83, 0.4)',
+              'glow-lime': '0 0 15px rgba(191, 255, 0, 0.4)',
+            }
+          }
+        }
+      }
+    </script>
+    
+    <style>
+      /* Custom Animations & Styles */
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .font-display {
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      /* Fade-in scroll animations */
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.8s ease-out;
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* Dot matrix or background grid pattern for high tech saas feel */
+      .bg-grid-pattern {
+        background-size: 40px 40px;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      }
+      
+      /* Glassmorphism utility */
+      .glass-card {
+        background: rgba(26, 26, 46, 0.65);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .animate-fade-in {
+        animation: fadeIn 0.4s ease-out forwards;
+      }
+      
+      .animate-scale-up {
+        animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      @keyframes scaleUp {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+      }
+    </style>
+  </head>
+  <body class="bg-darkNavy text-slate-100 overflow-x-hidden">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: LANDING PAGE (SHOWN BY DEFAULT)     -->
+    <!-- ========================================== -->
+    <div id="landing-view" class="w-full relative transition-all duration-500">
+      
+      <!-- Sticky Navbar -->
+      <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-md bg-darkNavy/85 border-b border-white/5 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          
+          <!-- Logo -->
+          <a href="#" class="flex items-center space-x-2 group">
+            <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-glow transition-transform duration-300 group-hover:scale-105">
+              <i data-lucide="heart-pulse" class="text-white w-6 h-6"></i>
+            </div>
+            <span class="font-display font-bold text-2xl tracking-tight text-white">
+              Healthify<span class="text-primary">You</span>
+            </span>
+          </a>
+          
+          <!-- Desktop Nav Links -->
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="#features" class="text-slate-300 hover:text-primary transition-colors font-medium">Features</a>
+            <a href="#how-it-works" class="text-slate-300 hover:text-primary transition-colors font-medium">How It Works</a>
+            <a href="#pricing" class="text-slate-300 hover:text-primary transition-colors font-medium">Pricing</a>
+            <a href="#testimonials" class="text-slate-300 hover:text-primary transition-colors font-medium">Testimonials</a>
+          </div>
+          
+          <!-- CTA Action -->
+          <div class="hidden md:flex items-center space-x-4">
+            <button onclick="handleGetStarted()" class="px-5 py-2.5 bg-primary hover:bg-primary-dark text-white rounded-xl font-semibold shadow-glow transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
+              Get Started
+            </button>
+          </div>
+          
+          <!-- Hamburger Mobile Trigger -->
+          <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white focus:outline-none p-1 cursor-pointer">
+            <i data-lucide="menu" id="hamburger-icon" class="w-6 h-6"></i>
+          </button>
+        </div>
+        
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-drawer" class="hidden md:hidden bg-darkNavy-dark border-b border-white/10 px-4 pt-2 pb-6 space-y-3">
+          <a href="#features" onclick="toggleMobileMenu()" class="block py-2 text-slate-300 hover:text-primary font-medium">Features</a>
+          <a href="#how-it-works" onclick="toggleMobileMenu()" class="block py-2 text-slate-300 hover:text-primary font-medium">How It Works</a>
+          <a href="#pricing" onclick="toggleMobileMenu()" class="block py-2 text-slate-300 hover:text-primary font-medium">Pricing</a>
+          <a href="#testimonials" onclick="toggleMobileMenu()" class="block py-2 text-slate-300 hover:text-primary font-medium">Testimonials</a>
+          <hr class="border-white/10 my-2">
+          <button onclick="handleGetStarted(); toggleMobileMenu();" class="w-full text-center px-5 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl font-semibold shadow-glow transition-all">
+            Get Started Free
+          </button>
+        </div>
+      </nav>
+
+      <!-- Full-Viewport Hero -->
+      <header class="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-darkNavy via-darkNavy-dark to-darkNavy-deep bg-grid-pattern pt-20">
+        <!-- Glow Orbs -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-deepPurple/30 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+          
+          <!-- Hero Text Content -->
+          <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+              <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+              <span class="text-xs font-semibold text-primary uppercase tracking-wider">Next-Gen Fitness Ecosystem</span>
+            </div>
+            
+            <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.1] tracking-tight">
+              Your AI-Powered <br>
+              <span class="bg-gradient-to-r from-primary to-limeAccent bg-clip-text text-transparent">Health Companion</span>
+            </h1>
+            
+            <p class="text-slate-300 text-lg max-w-xl mx-auto lg:mx-0">
+              Transform your physical intelligence. HealthifyYou leverages elite hyper-personalized AI models to craft real-time workout, nutritional, and Fitbit-integrated coaching, custom-built around your body's biometric signature.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              <button onclick="handleGetStarted()" class="w-full sm:w-auto px-8 py-4 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold shadow-glow text-lg transition-all duration-300 hover:-translate-y-1 active:translate-y-0 cursor-pointer">
+                Start Your Journey
+              </button>
+              <a href="#features" class="w-full sm:w-auto px-8 py-4 bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-xl font-semibold text-lg text-center transition-all duration-300 flex items-center justify-center gap-2">
+                Explore Features <i data-lucide="arrow-right" class="w-5 h-5 text-limeAccent"></i>
+              </a>
+            </div>
+            
+            <!-- Quick Trust Badges -->
+            <div class="pt-8 flex flex-wrap justify-center lg:justify-start items-center gap-6 opacity-80 text-sm text-slate-400">
+              <div class="flex items-center space-x-2">
+                <i data-lucide="shield-check" class="text-primary w-5 h-5"></i>
+                <span>HIPAA Compliant</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <i data-lucide="smartphone" class="text-limeAccent w-5 h-5"></i>
+                <span>Fitbit Syncing</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <i data-lucide="star" class="text-yellow-400 fill-yellow-400 w-5 h-5"></i>
+                <span>4.9 App Rating</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Hero Interactive Graphic -->
+          <div class="lg:col-span-5 flex justify-center relative">
+            <div class="relative w-full max-w-[420px] aspect-square rounded-[36px] bg-gradient-to-tr from-primary/20 via-white/5 to-white/5 border border-white/15 p-6 shadow-2xl flex flex-col justify-between overflow-hidden">
+              <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(191,255,0,0.15),transparent_50%)]"></div>
+              
+              <!-- Floating UI Card 1 -->
+              <div class="glass-card p-4 rounded-2xl flex items-center space-x-3 self-start shadow-lg transform -rotate-2 hover:rotate-0 transition-all duration-300 border border-white/10 relative z-10 max-w-[280px]">
+                <div class="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+                  <i data-lucide="flame" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400 font-medium">Daily Calories Target</div>
+                  <div class="text-lg font-bold text-white">2,450 / 3,000 <span class="text-xs font-normal text-slate-400">kcal</span></div>
+                </div>
+              </div>
+              
+              <!-- Core Graphic (AI Agent Ring Animation) -->
+              <div class="flex flex-col items-center justify-center my-4 relative">
+                <div class="relative flex items-center justify-center">
+                  <!-- Animated rings -->
+                  <div class="absolute w-44 h-44 rounded-full border border-primary/30 animate-ping duration-[3000ms]"></div>
+                  <div class="absolute w-36 h-36 rounded-full border-2 border-dashed border-limeAccent/45 animate-spin duration-[8000ms]"></div>
+                  <div class="w-28 h-28 rounded-full bg-gradient-to-tr from-darkNavy to-primary/40 flex flex-col items-center justify-center shadow-glow border border-primary relative z-10 text-center">
+                    <span class="text-xs text-slate-200">AI COACH</span>
+                    <span class="text-2xl font-black text-white tracking-widest uppercase">ACTIVE</span>
+                    <div class="w-1.5 h-1.5 bg-primary rounded-full animate-bounce mt-1"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Floating UI Card 2 -->
+              <div class="glass-card p-4 rounded-2xl flex items-center space-x-3 self-end shadow-lg transform rotate-3 hover:rotate-0 transition-all duration-300 border border-white/10 relative z-10 max-w-[280px]">
+                <div class="w-10 h-10 rounded-xl bg-limeAccent/20 flex items-center justify-center text-limeAccent">
+                  <i data-lucide="trending-up" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-slate-400 font-medium">Weekly Accuracy</div>
+                  <div class="text-lg font-bold text-white">98.4% <span class="text-xs text-primary font-semibold">+2.1%</span></div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          
+        </div>
+      </header>
+
+      <!-- 6 Feature Cards Grid -->
+      <section id="features" class="py-24 bg-darkNavy-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+            <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white">
+              Smarter Workouts, Intelligent Results
+            </h2>
+            <div class="h-1 w-20 bg-primary mx-auto mt-4 rounded-full"></div>
+            <p class="text-slate-300 mt-4 text-lg">
+              HealthifyYou isn't another generic logger. It's a closed-loop wellness system powered by multi-agent AI configured to scale with you.
+            </p>
+          </div>
+          
+          <!-- Cards Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Card 1: AI Workout Planner -->
+            <div class="glass-card p-8 rounded-2xl hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 relative group reveal">
+              <div class="w-12 h-12 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                <i data-lucide="dumbbell" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display font-bold text-xl text-white mb-2">AI Workout Planner</h3>
+              <p class="text-slate-400">
+                Instantly generates dynamically adjusting workout sheets tailored to your equipment, time, goals, and recent performance metrics.
+              </p>
+              <div class="mt-6 flex items-center text-primary text-sm font-semibold group-hover:text-primary-light">
+                <span>View Generator Demo</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+              </div>
+            </div>
+            
+            <!-- Card 2: Calorie Tracker -->
+            <div class="glass-card p-8 rounded-2xl hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 relative group reveal">
+              <div class="w-12 h-12 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                <i data-lucide="apple" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display font-bold text-xl text-white mb-2">Calorie Tracker</h3>
+              <p class="text-slate-400">
+                Log meals via simple natural language typing or photos, immediately mapping micro and macronutrient distributions dynamically.
+              </p>
+              <div class="mt-6 flex items-center text-primary text-sm font-semibold group-hover:text-primary-light">
+                <span>Configure Macro Tracker</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+              </div>
+            </div>
+            
+            <!-- Card 3: Smart Dashboard -->
+            <div class="glass-card p-8 rounded-2xl hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 relative group reveal">
+              <div class="w-12 h-12 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display font-bold text-xl text-white mb-2">Smart Dashboard</h3>
+              <p class="text-slate-400">
+                A unified, single-pane command center mapping your current calorie intake, sleep cycles, water logging, and heart rates.
+              </p>
+              <div class="mt-6 flex items-center text-primary text-sm font-semibold group-hover:text-primary-light">
+                <span>Open Command Shell</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+              </div>
+            </div>
+            
+            <!-- Card 4: AI Coach Fitbit -->
+            <div class="glass-card p-8 rounded-2xl hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 relative group reveal">
+              <div class="w-12 h-12 rounded-xl bg-limeAccent/15 border border-limeAccent/30 flex items-center justify-center text-limeAccent mb-6 group-hover:scale-110 transition-transform">
+                <i data-lucide="bot" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display font-bold text-xl text-white mb-2">AI Coach FitBit</h3>
+              <p class="text-slate-400">
+                Direct integration with your wearables to extract live activity telemetry, offering constructive real-time training alerts.
+              </p>
+              <div class="mt-6 flex items-center text-limeAccent text-sm font-semibold group-hover:text-limeAccent-dark">
+                <span>Connect Wearables</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+              </div>
+            </div>
+            
+            <!-- Card 5: Progress Analytics -->
+            <div class="glass-card p-8 rounded-2xl hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 relative group reveal">
+              <div class="w-12 h-12 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                <i data-lucide="line-chart" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display font-bold text-xl text-white mb-2">Progress Analytics</h3>
+              <p class="text-slate-400">
+                Watch deep trends over time. Interactive visualization engines map your weight drops, strength curves, and sleep trends.
+              </p>
+              <div class="mt-6 flex items-center text-primary text-sm font-semibold group-hover:text-primary-light">
+                <span>View Predictive Models</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+              </div>
+            </div>
+            
+            <!-- Card 6: Email Reports -->
+            <div class="glass-card p-8 rounded-2xl hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 relative group reveal">
+              <div class="w-12 h-12 rounded-xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                <i data-lucide="mail" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-display font-bold text-xl text-white mb-2">Email Reports</h3>
+              <p class="text-slate-400">
+                Receive weekly micro-digests capturing your biometric milestones and next week's tactical AI optimization suggestions.
+              </p>
+              <div class="mt-6 flex items-center text-primary text-sm font-semibold group-hover:text-primary-light">
+                <span>Setup Subscriptions</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+
+      <!-- 4-Step How-It-Works Timeline -->
+      <section id="how-it-works" class="py-24 bg-darkNavy relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+            <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white">
+              How It Works
+            </h2>
+            <div class="h-1 w-20 bg-primary mx-auto mt-4 rounded-full"></div>
+            <p class="text-slate-300 mt-4 text-lg">
+              Four structured steps to achieve clinical-grade lifestyle optimization.
+            </p>
+          </div>
+          
+          <!-- Timeline Grid -->
+          <div class="relative">
+            <!-- Central connecting line on desktop -->
+            <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-limeAccent to-primary transform -translate-x-1/2 opacity-30"></div>
+            
+            <div class="space-y-16 lg:space-y-24">
+              
+              <!-- Step 1 -->
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative reveal">
+                <div class="lg:col-span-5 text-center lg:text-right space-y-3">
+                  <div class="inline-block px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-bold uppercase tracking-wider">Step 1</div>
+                  <h3 class="font-display font-bold text-2xl text-white">Create Your Profile</h3>
+                  <p class="text-slate-400 max-w-md mx-auto lg:mr-0">
+                    Input your physiological benchmarks, nutritional standards, and workout targets. Calculate your core BMI status instantly.
+                  </p>
+                </div>
+                <!-- Timeline dot / number -->
+                <div class="lg:col-span-2 flex justify-center relative">
+                  <div class="w-14 h-14 rounded-full bg-darkNavy-light border-4 border-primary shadow-glow flex items-center justify-center text-primary font-bold text-xl relative z-10">
+                    1
+                  </div>
+                </div>
+                <div class="lg:col-span-5 hidden lg:block">
+                  <div class="w-24 h-24 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-primary-light">
+                    <i data-lucide="user" class="w-10 h-10"></i>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Step 2 -->
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative reveal">
+                <div class="lg:col-span-5 order-2 lg:order-1 hidden lg:block text-right">
+                  <div class="w-24 h-24 rounded-2xl bg-white/5 border border-white/10 ml-auto flex items-center justify-center text-limeAccent">
+                    <i data-lucide="cpu" class="w-10 h-10"></i>
+                  </div>
+                </div>
+                <!-- Timeline dot / number -->
+                <div class="lg:col-span-2 order-1 lg:order-2 flex justify-center relative">
+                  <div class="w-14 h-14 rounded-full bg-darkNavy-light border-4 border-limeAccent shadow-glow-lime flex items-center justify-center text-limeAccent font-bold text-xl relative z-10">
+                    2
+                  </div>
+                </div>
+                <div class="lg:col-span-5 order-3 lg:col-span-5 text-center lg:text-left space-y-3">
+                  <div class="inline-block px-3 py-1 bg-limeAccent/10 text-limeAccent border border-limeAccent/20 rounded-full text-xs font-bold uppercase tracking-wider">Step 2</div>
+                  <h3 class="font-display font-bold text-2xl text-white">Get AI Customization</h3>
+                  <p class="text-slate-400 max-w-md mx-auto lg:ml-0">
+                    Our AI models generate complex training sheets, custom nutrition breakdowns, and habit objectives custom-built for you.
+                  </p>
+                </div>
+              </div>
+              
+              <!-- Step 3 -->
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative reveal">
+                <div class="lg:col-span-5 text-center lg:text-right space-y-3">
+                  <div class="inline-block px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-bold uppercase tracking-wider">Step 3</div>
+                  <h3 class="font-display font-bold text-2xl text-white">Track & Sync</h3>
+                  <p class="text-slate-400 max-w-md mx-auto lg:mr-0">
+                    Use our easy tracker utilities to log meals and water, and connect Fitbit for fully dynamic synchronization.
+                  </p>
+                </div>
+                <!-- Timeline dot / number -->
+                <div class="lg:col-span-2 flex justify-center relative">
+                  <div class="w-14 h-14 rounded-full bg-darkNavy-light border-4 border-primary shadow-glow flex items-center justify-center text-primary font-bold text-xl relative z-10">
+                    3
+                  </div>
+                </div>
+                <div class="lg:col-span-5 hidden lg:block">
+                  <div class="w-24 h-24 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-primary-light">
+                    <i data-lucide="refresh-cw" class="w-10 h-10"></i>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Step 4 -->
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative reveal">
+                <div class="lg:col-span-5 order-2 lg:order-1 hidden lg:block text-right">
+                  <div class="w-24 h-24 rounded-2xl bg-white/5 border border-white/10 ml-auto flex items-center justify-center text-limeAccent">
+                    <i data-lucide="trophy" class="w-10 h-10"></i>
+                  </div>
+                </div>
+                <!-- Timeline dot / number -->
+                <div class="lg:col-span-2 order-1 lg:order-2 flex justify-center relative">
+                  <div class="w-14 h-14 rounded-full bg-darkNavy-light border-4 border-limeAccent shadow-glow-lime flex items-center justify-center text-limeAccent font-bold text-xl relative z-10">
+                    4
+                  </div>
+                </div>
+                <div class="lg:col-span-5 order-3 lg:col-span-5 text-center lg:text-left space-y-3">
+                  <div class="inline-block px-3 py-1 bg-limeAccent/10 text-limeAccent border border-limeAccent/20 rounded-full text-xs font-bold uppercase tracking-wider">Step 4</div>
+                  <h3 class="font-display font-bold text-2xl text-white">Achieve & Adapt</h3>
+                  <p class="text-slate-400 max-w-md mx-auto lg:ml-0">
+                    Analyze metrics through rich telemetry. Chat with the AI Coach to dynamically alter instructions as your conditioning scales.
+                  </p>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          
+        </div>
+      </section>
+
+      <!-- 3-Tier Pricing -->
+      <section id="pricing" class="py-24 bg-darkNavy-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+            <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white">
+              Flexible Plans, Peak Value
+            </h2>
+            <div class="h-1 w-20 bg-primary mx-auto mt-4 rounded-full"></div>
+            <p class="text-slate-300 mt-4 text-lg">
+              Unlock the complete capability set. Select the subscription level matching your dedication.
+            </p>
+          </div>
+          
+          <!-- Pricing Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+            
+            <!-- Plan 1: Free -->
+            <div class="glass-card rounded-3xl p-8 flex flex-col justify-between border border-white/10 transition-all duration-300 hover:border-white/20 reveal">
+              <div class="space-y-6">
+                <div>
+                  <h3 class="font-display font-bold text-xl text-white">Basic Starter</h3>
+                  <p class="text-slate-400 text-sm mt-1">Simple self-logging & statistics</p>
+                </div>
+                <div class="flex items-baseline text-white">
+                  <span class="text-5xl font-extrabold tracking-tight">$0</span>
+                  <span class="text-slate-400 ml-1">/month</span>
+                </div>
+                <hr class="border-white/10">
+                <ul class="space-y-3 text-slate-300 text-sm">
+                  <li class="flex items-center">
+                    <i data-lucide="check" class="text-primary w-4 h-4 mr-2"></i>
+                    <span>Manual Workouts Log</span>
+                  </li>
+                  <li class="flex items-center">
+                    <i data-lucide="check" class="text-primary w-4 h-4 mr-2"></i>
+                    <span>Generic Macro Tracker</span>
+                  </li>
+                  <li class="flex items-center text-slate-500">
+                    <i data-lucide="x" class="text-slate-500 w-4 h-4 mr-2"></i>
+                    <span>No Wearables Sync</span>
+                  </li>
+                  <li class="flex items-center text-slate-500">
+                    <i data-lucide="x" class="text-slate-500 w-4 h-4 mr-2"></i>
+                    <span>No AI Coach Customization</span>
+                  </li>
+                </ul>
+              </div>
+              <button onclick="handleGetStarted()" class="mt-8 w-full py-3 px-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-xl transition-colors cursor-pointer">
+                Access Free Shell
+              </button>
+            </div>
+            
+            <!-- Plan 2: Pro -->
+            <div class="glass-card rounded-3xl p-8 flex flex-col justify-between border-2 border-primary shadow-glow relative transform lg:-translate-y-2 hover:scale-[1.02] transition-all duration-300 reveal">
+              <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-primary text-white text-xs font-bold uppercase rounded-full tracking-widest shadow-glow">
+                RECOMMENDED
+              </div>
+              <div class="space-y-6">
+                <div>
+                  <h3 class="font-display font-bold text-xl text-white">Elite Pro Trainer</h3>
+                  <p class="text-slate-300 text-sm mt-1">Full intelligence customized plans</p>
+                </div>
+                <div class="flex items-baseline text-white">
+                  <span class="text-5xl font-extrabold tracking-tight">$14.99</span>
+                  <span class="text-slate-400 ml-1">/month</span>
+                </div>
+                <hr class="border-white/10">
+                <ul class="space-y-3 text-slate-200 text-sm">
+                  <li class="flex items-center">
+                    <i data-lucide="check" class="text-primary w-4 h-4 mr-2"></i>
+                    <span class="font-medium">AI Custom Workouts</span>
+                  </li>
+                  <li class="flex items-center">
+                    <i data-lucide="check" class="text-primary w-4 h-4 mr-2"></i>
+                    <span>AI Nutrition Macro breakdown</span>
+                  </li>
+                  <li class="flex items-center">
+                    <i data-lucide="check" class="text-primary w-4 h-4 mr-2"></i>
+                    <span>Complete Smart Dashboard</span>
+                  </li>
+                  <li class="flex items-center">
+                    <i data-lucide="check" class="text-primary w-4 h-4 mr-2"></i>
+                    <span>Email Progress Reports</span>
+                  </li>
+                </ul>
+              </div>
+              <button onclick="handleGetStarted()" class="mt-8 w-full py-3.5 px-4 bg-primary hover:bg-primary-dark text-white font-bold rounded-xl transition-all duration-300 shadow-glow cursor-pointer">
+                Get Started Now
+              </button>
+            </div>
+            
+            <!-- Plan 3: Premium -->
+            <div class="glass-card rounded-3xl p-8 flex flex-col justify-between border border-white/10 transition-all duration-300 hover:border-white/20 reveal">
+              <div class="space-y-6">
+                <div>
+                  <h3 class="font-display font-bold text-xl text-white">Ultimate Fitbit</h3>
+                  <p class="text-slate-400 text-sm mt-1">Complete device sync & smart support</p>
+                </div>
+                <div class="flex items-baseline text-white">
+                  <span class="text-5xl font-extrabold tracking-tight">$29.99</span>
+                  <span class="text-slate-400 ml-1">/month</span>
+                </div>
+                <hr class="border-white/10">
+                <ul class="space-y-3 text-slate-300 text-sm">
+                  <li class="flex items-center">
+                    <i data-lucide="check" class="text-primary w-4 h-4 mr-2"></i>
+                    <span>Full Fitbit Live synchronization</span>
+                  </li>
+                  <li class="flex items-center">
+                    <i data-lucide="check" class="text-primary w-4 h-4 mr-2"></i>
+                    <span>Interactive AI Chat Coach</span>
+                  </li>
+                  <li class="flex items-center">
+                    <i data-lucide="check" class="text-primary w-4 h-4 mr-2"></i>
+                    <span>Form analysis & voice support</span>
+                  </li>
+                  <li class="flex items-center">
+                    <i data-lucide="check" class="text-primary w-4 h-4 mr-2"></i>
+                    <span>Prioritized email support</span>
+                  </li>
+                </ul>
+              </div>
+              <button onclick="handleGetStarted()" class="mt-8 w-full py-3 px-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-xl transition-colors cursor-pointer">
+                Access Premium Shell
+              </button>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 Testimonial Cards -->
+      <section id="testimonials" class="py-24 bg-darkNavy relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+            <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white">
+              Loved by Wellness Achievers
+            </h2>
+            <div class="h-1 w-20 bg-primary mx-auto mt-4 rounded-full"></div>
+            <p class="text-slate-300 mt-4 text-lg">
+              Hear directly from people who revolutionized their conditioning.
+            </p>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Testimonial 1 -->
+            <div class="glass-card p-8 rounded-2xl flex flex-col justify-between border border-white/10 hover:border-primary/20 transition-all duration-300 reveal">
+              <p class="text-slate-300 italic">
+                "The customized AI workout planner has been a complete game changer. It adjusts exactly to the dumbbell set I have in my garage, meaning I save 2 hours commuting to the club every week."
+              </p>
+              <div class="flex items-center space-x-4 mt-8">
+                <div class="w-12 h-12 rounded-full bg-slate-600 flex items-center justify-center text-white font-bold font-display border border-primary">
+                  SJ
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-white text-sm">Sarah Jenkins</h4>
+                  <p class="text-xs text-primary font-medium">Lost 15 lbs • Active Member</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="glass-card p-8 rounded-2xl flex flex-col justify-between border border-white/10 hover:border-primary/20 transition-all duration-300 reveal">
+              <p class="text-slate-300 italic">
+                "I synced my Fitbit directly on day one. The real-time coaching alerts helped me pace my active cardio zones perfectly. Finally, a solution that takes the guesswork out of my conditioning."
+              </p>
+              <div class="flex items-center space-x-4 mt-8">
+                <div class="w-12 h-12 rounded-full bg-slate-600 flex items-center justify-center text-white font-bold font-display border border-limeAccent">
+                  MC
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-white text-sm">Marcus Chen</h4>
+                  <p class="text-xs text-limeAccent font-medium">Fitbit Explorer • Pro Runner</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Testimonial 3 -->
+            <div class="glass-card p-8 rounded-2xl flex flex-col justify-between border border-white/10 hover:border-primary/20 transition-all duration-300 reveal">
+              <p class="text-slate-300 italic">
+                "Being able to input whatever leftovers are in my fridge to get a highly precise macronutrient recipe option is incredible. The AI Wellness Coach feels exactly like having an elite private dietitian."
+              </p>
+              <div class="flex items-center space-x-4 mt-8">
+                <div class="w-12 h-12 rounded-full bg-slate-600 flex items-center justify-center text-white font-bold font-display border border-primary">
+                  DM
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-white text-sm">David Miller</h4>
+                  <p class="text-xs text-primary font-medium">Sub 10% Bodyfat Goal</p>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Banner -->
+      <section class="py-20 bg-gradient-to-r from-primary/10 via-darkNavy to-limeAccent/10 border-t border-b border-white/5 relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
+          <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white">
+            Ready to Take Command of Your Body?
+          </h2>
+          <p class="text-slate-300 text-lg max-w-2xl mx-auto">
+            Join thousands of active users logging metrics and crushing physical milestones with HealthifyYou. Access the AI engine today.
+          </p>
+          <div class="pt-4">
+            <button onclick="handleGetStarted()" class="px-10 py-5 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold text-lg shadow-glow transition-all duration-300 hover:-translate-y-1 active:translate-y-0 cursor-pointer">
+              Claim Your 14-Day Free Trial
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4-Column Footer -->
+      <footer class="bg-darkNavy-deep text-slate-400 py-16 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          
+          <!-- Column 1: Brand -->
+          <div class="space-y-4">
+            <div class="flex items-center space-x-2">
+              <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+                <i data-lucide="heart-pulse" class="text-white w-5 h-5"></i>
+              </div>
+              <span class="font-display font-bold text-xl text-white">Healthify<span class="text-primary">You</span></span>
+            </div>
+            <p class="text-sm text-slate-400">
+              Transforming physical intelligence through structured, high-accuracy AI models. Connecting lifestyles with metrics.
+            </p>
+            <div class="flex items-center space-x-4 pt-2">
+              <a href="#" class="hover:text-primary transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+              <a href="#" class="hover:text-primary transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+              <a href="#" class="hover:text-primary transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+            </div>
+          </div>
+          
+          <!-- Column 2: Product -->
+          <div class="space-y-4">
+            <h4 class="text-white font-semibold font-display tracking-wider uppercase text-sm">Product</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#features" class="hover:text-white transition-colors">AI Workout Generator</a></li>
+              <li><a href="#features" class="hover:text-white transition-colors">Smart Calorie Analytics</a></li>
+              <li><a href="#features" class="hover:text-white transition-colors">Fitbit Integration</a></li>
+              <li><a href="#pricing" class="hover:text-white transition-colors">Premium Plans</a></li>
+            </ul>
+          </div>
+          
+          <!-- Column 3: Resources -->
+          <div class="space-y-4">
+            <h4 class="text-white font-semibold font-display tracking-wider uppercase text-sm">Resources</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-white transition-colors">Active Guides</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Fitness Blog</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">API Docs</a></li>
+            </ul>
+          </div>
+          
+          <!-- Column 4: Contact & Legal -->
+          <div class="space-y-4">
+            <h4 class="text-white font-semibold font-display tracking-wider uppercase text-sm">Legal & Support</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+              <li><a href="mailto:support@healthifyyou.com" class="hover:text-white transition-colors">support@healthifyyou.com</a></li>
+              <li class="text-xs text-slate-500 pt-1">HIPAA Certification No. 90-128B</li>
+            </ul>
+          </div>
+          
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+          <p>© 2026 HealthifyYou Inc. All rights reserved.</p>
+          <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+            <a href="#" class="hover:text-white transition-colors">Privacy Settings</a>
+            <span>•</span>
+            <a href="#" class="hover:text-white transition-colors">System Status</a>
+          </div>
+        </div>
+      </footer>
+      
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW: LOGIN SCREEN                         -->
+    <!-- ========================================== -->
+    <div id="login-view" class="hidden min-h-screen flex items-center justify-center bg-gradient-to-b from-darkNavy via-darkNavy-dark to-darkNavy-deep bg-grid-pattern px-4 py-12 relative overflow-hidden">
+      <!-- Glow Orbs -->
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-deepPurple/30 rounded-full blur-[100px] pointer-events-none"></div>
+      
+      <div class="glass-card max-w-md w-full rounded-3xl p-8 border border-white/10 shadow-2xl space-y-6 relative z-10 text-center animate-fade-in">
+        
+        <!-- App Logo -->
+        <div class="flex flex-col items-center space-y-3">
+          <div class="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center shadow-glow">
+            <i data-lucide="heart-pulse" class="text-white w-8 h-8 animate-pulse"></i>
+          </div>
+          <div>
+            <span class="font-display font-bold text-3xl tracking-tight text-white">
+              Healthify<span class="text-primary">You</span>
+            </span>
+            <p class="text-slate-400 text-xs mt-1 font-medium tracking-wide">Your AI Health Companion</p>
+          </div>
+        </div>
+
+        <div class="h-px bg-white/10 my-4"></div>
+
+        <div class="space-y-4">
+          <h3 class="font-display font-bold text-lg text-white">Get Started with Your Biometrics</h3>
+          <p class="text-slate-300 text-xs px-2 leading-relaxed">
+            Create an account or login to customize workout models, log nutritional indexes, and track live biometric progress securely.
+          </p>
+        </div>
+
+        <!-- Auth buttons -->
+        <div class="space-y-3 pt-2">
+          <!-- Sign In with Google -->
+          <button onclick="openGoogleSignIn()" class="w-full flex items-center justify-center gap-3 px-5 py-3.5 bg-white hover:bg-slate-50 text-slate-800 font-semibold rounded-xl border border-slate-200 transition-all duration-300 shadow-sm cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0">
+            <!-- Google G logo SVG -->
+            <svg class="w-5 h-5" viewBox="0 0 24 24">
+              <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.275 1.565-1.88 4.6-6.887 4.6-4.33 0-7.86-3.59-7.86-8s3.53-8 7.86-8c2.46 0 4.105 1.025 5.047 1.926l3.258-3.133C18.34 1.838 15.48 1 12.24 1c-6.07 0-11 4.93-11 11s4.93 11 11 11c6.33 0 10.54-4.45 10.54-10.715 0-.725-.075-1.275-.175-1.815H12.24z"/>
+            </svg>
+            <span class="text-sm font-sans tracking-tight">Sign in with Google</span>
+          </button>
+
+          <!-- Guest login -->
+          <button onclick="continueAsGuest()" class="w-full flex items-center justify-center gap-2 px-5 py-3.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold rounded-xl transition-all duration-300 cursor-pointer hover:border-white/25">
+            <i data-lucide="user-check" class="w-4 h-4 text-primary-light"></i>
+            <span class="text-sm font-sans">Continue as Guest</span>
+          </button>
+        </div>
+
+        <div class="pt-4">
+          <button onclick="showView('landing')" class="text-xs text-slate-400 hover:text-primary transition-colors flex items-center justify-center gap-1.5 mx-auto font-medium">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back to Landing Page
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- GOOGLE ACCOUNT CHOOSE POPUP (MOCK DIALOG)  -->
+    <!-- ========================================== -->
+    <div id="google-signin-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-slate-800 space-y-6 animate-scale-up">
+        
+        <!-- Google Header -->
+        <div class="flex flex-col items-center text-center space-y-2">
+          <div class="flex items-center justify-center gap-1 mb-1">
+            <span class="text-blue-500 font-bold text-xl">G</span>
+            <span class="text-red-500 font-bold text-xl">o</span>
+            <span class="text-yellow-500 font-bold text-xl">o</span>
+            <span class="text-blue-500 font-bold text-xl">g</span>
+            <span class="text-green-500 font-bold text-xl">l</span>
+            <span class="text-red-500 font-bold text-xl">e</span>
+          </div>
+          <h4 class="font-display font-semibold text-lg text-slate-800">Sign in with Google</h4>
+          <p class="text-slate-500 text-xs">to continue to <span class="font-bold text-primary-dark">HealthifyYou</span></p>
+        </div>
+
+        <!-- Account List -->
+        <div class="space-y-2.5">
+          <!-- Account 1 -->
+          <button onclick="selectGoogleAccount('Alex Johnson', 'alex.johnson@gmail.com', 'AJ')" class="w-full flex items-center justify-between p-3.5 bg-slate-50 hover:bg-slate-100 rounded-2xl border border-slate-150 transition-colors text-left cursor-pointer">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold font-display text-sm">
+                AJ
+              </div>
+              <div>
+                <h5 class="text-xs font-bold text-slate-800">Alex Johnson</h5>
+                <p class="text-[10px] text-slate-500">alex.johnson@gmail.com</p>
+              </div>
+            </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+          </button>
+
+          <!-- Account 2 -->
+          <button onclick="selectGoogleAccount('Sarah Miller', 'sarah.miller@gmail.com', 'SM')" class="w-full flex items-center justify-between p-3.5 bg-slate-50 hover:bg-slate-100 rounded-2xl border border-slate-150 transition-colors text-left cursor-pointer">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center font-bold font-display text-sm">
+                SM
+              </div>
+              <div>
+                <h5 class="text-xs font-bold text-slate-800">Sarah Miller</h5>
+                <p class="text-[10px] text-slate-500">sarah.miller@gmail.com</p>
+              </div>
+            </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+          </button>
+
+          <!-- Use another account (Custom Input) -->
+          <div class="border-t border-slate-100 pt-3 mt-3">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Or Use Custom Google Account</p>
+            <div class="space-y-2">
+              <input type="text" id="custom-google-name" placeholder="Full Name" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800">
+              <input type="email" id="custom-google-email" placeholder="email@gmail.com" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500 text-slate-800">
+              <button onclick="submitCustomGoogleAccount()" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-1 cursor-pointer">
+                <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Use This Account
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1">
+          <button onclick="closeGoogleSignIn()" class="hover:text-slate-600 cursor-pointer">Cancel</button>
+          <span>English (United States)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW: ONBOARDING WIZARD                    -->
+    <!-- ========================================== -->
+    <div id="onboarding-view" class="hidden min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-darkNavy via-darkNavy-dark to-darkNavy-deep bg-grid-pattern py-12 px-4 relative overflow-hidden">
+      <!-- Glow Orbs -->
+      <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-limeAccent/5 rounded-full blur-[120px] pointer-events-none"></div>
+      
+      <div class="glass-card max-w-2xl w-full rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative z-10 flex flex-col justify-between min-h-[580px] animate-fade-in">
+        
+        <!-- Header & Progress -->
+        <div>
+          <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+            <span class="flex items-center gap-1 text-primary">
+              <i data-lucide="sparkles" class="w-4 h-4"></i> HealthifyYou Onboarding
+            </span>
+            <span id="wizard-progress-text">Step 1 of 4</span>
+          </div>
+          
+          <!-- Progress Bar -->
+          <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden mb-6 flex">
+            <div id="wizard-progress-bar" class="h-full bg-gradient-to-r from-primary to-limeAccent transition-all duration-500" style="width: 25%"></div>
+          </div>
+        </div>
+
+        <!-- Dynamic Onboarding Form Steps Container -->
+        <div class="flex-1 flex flex-col justify-center py-4">
+          
+          <!-- STEP 1: BASICS -->
+          <div id="onboarding-step-1" class="onboarding-step space-y-5">
+            <div class="space-y-1.5">
+              <h3 class="font-display font-extrabold text-2xl text-white">Let's start with the basics</h3>
+              <p class="text-slate-300 text-xs">Help us calibrate our algorithm using your core identifiers.</p>
+            </div>
+            
+            <div class="space-y-4 pt-2">
+              <!-- Name Input -->
+              <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Full Name</label>
+                <div class="relative">
+                  <i data-lucide="user" class="absolute left-4.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5"></i>
+                  <input type="text" id="ob-fullname" placeholder="Alex Johnson" class="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-primary text-white font-medium transition-colors">
+                </div>
+              </div>
+
+              <!-- DOB Input -->
+              <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Date of Birth</label>
+                <div class="relative">
+                  <i data-lucide="calendar" class="absolute left-4.5 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5"></i>
+                  <input type="date" id="ob-dob" class="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-primary text-white font-medium transition-colors">
+                </div>
+              </div>
+
+              <!-- Gender Selection Cards -->
+              <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Gender</label>
+                <div class="grid grid-cols-3 gap-3">
+                  <!-- Male Card -->
+                  <button type="button" onclick="selectObGender('Male')" id="gender-male" class="ob-gender-btn py-3.5 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all">
+                    <i data-lucide="user-round" class="w-5 h-5 text-blue-400"></i>
+                    <span class="text-xs font-bold text-white">Male</span>
+                  </button>
+                  <!-- Female Card -->
+                  <button type="button" onclick="selectObGender('Female')" id="gender-female" class="ob-gender-btn py-3.5 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all">
+                    <i data-lucide="user-round" class="w-5 h-5 text-pink-400"></i>
+                    <span class="text-xs font-bold text-white">Female</span>
+                  </button>
+                  <!-- Other Card -->
+                  <button type="button" onclick="selectObGender('Other')" id="gender-other" class="ob-gender-btn py-3.5 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all">
+                    <i data-lucide="users" class="w-5 h-5 text-purple-400"></i>
+                    <span class="text-xs font-bold text-white">Other</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2: BODY & BIOMETRICS -->
+          <div id="onboarding-step-2" class="onboarding-step hidden space-y-5 animate-fade-in">
+            <div class="space-y-1.5 flex justify-between items-start gap-4">
+              <div>
+                <h3 class="font-display font-extrabold text-2xl text-white">Biometric Signatures</h3>
+                <p class="text-slate-300 text-xs">Observe your BMI index update dynamically as you scale parameters.</p>
+              </div>
+              <!-- Unit Toggles -->
+              <div class="flex items-center gap-2 bg-white/5 p-1 rounded-xl border border-white/10 flex-shrink-0">
+                <button type="button" onclick="toggleObUnits('metric')" id="unit-btn-metric" class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-lg bg-primary text-white transition-all cursor-pointer">Metric</button>
+                <button type="button" onclick="toggleObUnits('imperial')" id="unit-btn-imperial" class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-lg text-slate-400 transition-all cursor-pointer">Imperial</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center pt-2">
+              <!-- Inputs & Sliders -->
+              <div class="md:col-span-7 space-y-5">
+                
+                <!-- Height Control -->
+                <div class="space-y-2">
+                  <div class="flex justify-between items-baseline">
+                    <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Height</label>
+                    <span id="ob-height-val" class="text-sm font-extrabold text-primary-light">175 cm</span>
+                  </div>
+                  
+                  <!-- Metric cm slider -->
+                  <div id="ob-height-metric-wrapper" class="flex items-center space-x-3">
+                    <input type="range" id="ob-height-slider-cm" min="100" max="230" value="175" oninput="updateObHeightFromSlider()" class="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary">
+                    <input type="number" id="ob-height-num-cm" min="100" max="230" value="175" oninput="updateObHeightFromNum()" class="w-20 px-2 py-1.5 bg-white/5 border border-white/10 rounded-lg text-center text-xs font-bold text-white focus:outline-none focus:border-primary">
+                  </div>
+                  
+                  <!-- Imperial ft/in selectors -->
+                  <div id="ob-height-imperial-wrapper" class="hidden flex items-center space-x-3 w-full">
+                    <div class="flex items-center gap-1.5 w-full">
+                      <select id="ob-height-ft" onchange="updateObBMI()" class="w-full py-2.5 px-3 bg-darkNavy-light border border-white/10 rounded-xl text-xs font-bold text-white focus:outline-none focus:border-primary">
+                        <option value="3">3 ft</option>
+                        <option value="4">4 ft</option>
+                        <option value="5" selected>5 ft</option>
+                        <option value="6">6 ft</option>
+                        <option value="7">7 ft</option>
+                        <option value="8">8 ft</option>
+                      </select>
+                      <select id="ob-height-in" onchange="updateObBMI()" class="w-full py-2.5 px-3 bg-darkNavy-light border border-white/10 rounded-xl text-xs font-bold text-white focus:outline-none focus:border-primary">
+                        <option value="0">0 in</option>
+                        <option value="1">1 in</option>
+                        <option value="2">2 in</option>
+                        <option value="3">3 in</option>
+                        <option value="4">4 in</option>
+                        <option value="5">5 in</option>
+                        <option value="6">6 in</option>
+                        <option value="7">7 in</option>
+                        <option value="8">8 in</option>
+                        <option value="9" selected>9 in</option>
+                        <option value="10">10 in</option>
+                        <option value="11">11 in</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Weight Control -->
+                <div class="space-y-2">
+                  <div class="flex justify-between items-baseline">
+                    <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Weight</label>
+                    <span id="ob-weight-val" class="text-sm font-extrabold text-primary-light">70 kg</span>
+                  </div>
+                  
+                  <div class="flex items-center space-x-3">
+                    <input type="range" id="ob-weight-slider" min="30" max="200" value="70" oninput="updateObWeightFromSlider()" class="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary">
+                    <input type="number" id="ob-weight-num" min="30" max="200" value="70" oninput="updateObWeightFromNum()" class="w-20 px-2 py-1.5 bg-white/5 border border-white/10 rounded-lg text-center text-xs font-bold text-white focus:outline-none focus:border-primary">
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- BMI Output Card -->
+              <div class="md:col-span-5 flex flex-col items-center justify-center text-center p-5 bg-white/5 rounded-2xl border border-white/10 shadow-inner h-full min-h-[170px]">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Calculated BMI</div>
+                <div id="ob-bmi-score" class="text-4.5xl font-black text-white my-1">22.9</div>
+                <div id="ob-bmi-badge" class="px-3 py-1 text-[11px] font-extrabold rounded-full bg-primary/20 text-primary border border-primary/20">Normal (Healthy)</div>
+                
+                <div class="w-full bg-white/10 h-1.5 rounded-full mt-4 overflow-hidden flex">
+                  <div class="h-full bg-blue-400" style="width: 20%"></div>
+                  <div class="h-full bg-emerald-400" style="width: 40%"></div>
+                  <div class="h-full bg-yellow-400" style="width: 20%"></div>
+                  <div class="h-full bg-red-400" style="width: 20%"></div>
+                </div>
+                <div class="flex justify-between w-full text-[8px] text-slate-400 mt-1">
+                  <span>Under</span>
+                  <span>Normal</span>
+                  <span>Over</span>
+                  <span>Obese</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: GOALS & ACTIVITIES -->
+          <div id="onboarding-step-3" class="onboarding-step hidden space-y-4 animate-fade-in">
+            <div class="space-y-1.5">
+              <h3 class="font-display font-extrabold text-2xl text-white">Select Your Fitness Profile</h3>
+              <p class="text-slate-300 text-xs">Our AI engine adapts daily nutrient ratios based on your goal vector.</p>
+            </div>
+
+            <!-- Goal grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+              <!-- Goal 1 -->
+              <button type="button" onclick="selectObGoal('Lose Weight')" id="ob-goal-lose" class="ob-goal-btn p-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 cursor-pointer text-center flex flex-col items-center justify-center gap-1.5 transition-all">
+                <div class="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center flex-shrink-0"><i data-lucide="flame" class="w-4 h-4"></i></div>
+                <div class="text-[11px] font-bold text-white block truncate w-full">Lose Weight</div>
+              </button>
+              <!-- Goal 2 -->
+              <button type="button" onclick="selectObGoal('Build Muscle')" id="ob-goal-build" class="ob-goal-btn p-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 cursor-pointer text-center flex flex-col items-center justify-center gap-1.5 transition-all">
+                <div class="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center flex-shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>
+                <div class="text-[11px] font-bold text-white block truncate w-full">Build Muscle</div>
+              </button>
+              <!-- Goal 3 -->
+              <button type="button" onclick="selectObGoal('Stay Fit')" id="ob-goal-stay" class="ob-goal-btn p-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 cursor-pointer text-center flex flex-col items-center justify-center gap-1.5 transition-all">
+                <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0"><i data-lucide="heart-pulse" class="w-4 h-4"></i></div>
+                <div class="text-[11px] font-bold text-white block truncate w-full">Stay Fit</div>
+              </button>
+              <!-- Goal 4 -->
+              <button type="button" onclick="selectObGoal('Improve Endurance')" id="ob-goal-endure" class="ob-goal-btn p-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 cursor-pointer text-center flex flex-col items-center justify-center gap-1.5 transition-all">
+                <div class="w-8 h-8 rounded-xl bg-violet-500/20 text-violet-400 flex items-center justify-center flex-shrink-0"><i data-lucide="activity" class="w-4 h-4"></i></div>
+                <div class="text-[11px] font-bold text-white block truncate w-full">Endurance</div>
+              </button>
+              <!-- Goal 5 -->
+              <button type="button" onclick="selectObGoal('Gain Weight')" id="ob-goal-gain" class="ob-goal-btn p-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 cursor-pointer text-center flex flex-col items-center justify-center gap-1.5 transition-all">
+                <div class="w-8 h-8 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center flex-shrink-0"><i data-lucide="trending-up" class="w-4 h-4"></i></div>
+                <div class="text-[11px] font-bold text-white block truncate w-full">Gain Weight</div>
+              </button>
+            </div>
+
+            <!-- Target Weight & Timeline row -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Target Weight -->
+              <div class="space-y-1">
+                <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Target Weight (<span class="ob-weight-unit">kg</span>)</label>
+                <input type="number" id="ob-targetweight" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-primary text-white font-medium" placeholder="e.g. 65">
+              </div>
+
+              <!-- Timeline Selection -->
+              <div class="space-y-1">
+                <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Target Timeline</label>
+                <div class="grid grid-cols-4 gap-1.5">
+                  <button type="button" onclick="selectObTimeline('1 Month')" id="time-1" class="ob-time-btn py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-bold text-white transition-all cursor-pointer">1M</button>
+                  <button type="button" onclick="selectObTimeline('3 Months')" id="time-3" class="ob-time-btn py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-bold text-white transition-all cursor-pointer">3M</button>
+                  <button type="button" onclick="selectObTimeline('6 Months')" id="time-6" class="ob-time-btn py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-bold text-white transition-all cursor-pointer">6M</button>
+                  <button type="button" onclick="selectObTimeline('12 Months')" id="time-12" class="ob-time-btn py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-bold text-white transition-all cursor-pointer">12M</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity Levels select -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Daily Activity Level</label>
+              <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+                
+                <button type="button" onclick="selectObActivity('Sedentary', 1.2)" id="act-sedentary" class="ob-act-btn p-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-left cursor-pointer transition-all">
+                  <div class="text-[11px] font-bold text-white">Sedentary</div>
+                  <div class="text-[9px] text-slate-400 block truncate mt-0.5">Desk job, minimal exercise</div>
+                </button>
+                
+                <button type="button" onclick="selectObActivity('Light', 1.375)" id="act-light" class="ob-act-btn p-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-left cursor-pointer transition-all">
+                  <div class="text-[11px] font-bold text-white">Light</div>
+                  <div class="text-[9px] text-slate-400 block truncate mt-0.5">Exercise 1-3 days/wk</div>
+                </button>
+                
+                <button type="button" onclick="selectObActivity('Moderate', 1.55)" id="act-moderate" class="ob-act-btn p-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-left cursor-pointer transition-all">
+                  <div class="text-[11px] font-bold text-white">Moderate</div>
+                  <div class="text-[9px] text-slate-400 block truncate mt-0.5">Active sports 3-5 days/wk</div>
+                </button>
+                
+                <button type="button" onclick="selectObActivity('Very Active', 1.725)" id="act-very" class="ob-act-btn p-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-left cursor-pointer transition-all">
+                  <div class="text-[11px] font-bold text-white">Very Active</div>
+                  <div class="text-[9px] text-slate-400 block truncate mt-0.5">Hard training 6-7 days/wk</div>
+                </button>
+
+                <button type="button" onclick="selectObActivity('Athlete', 1.9)" id="act-athlete" class="ob-act-btn p-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-left cursor-pointer transition-all">
+                  <div class="text-[11px] font-bold text-white">Athlete</div>
+                  <div class="text-[9px] text-slate-400 block truncate mt-0.5">Extra active or physical labor</div>
+                </button>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: LIFESTYLE & DIET PREFERENCES -->
+          <div id="onboarding-step-4" class="onboarding-step hidden space-y-5 animate-fade-in">
+            <div class="space-y-1.5">
+              <h3 class="font-display font-extrabold text-2xl text-white">Diet & Hydration Map</h3>
+              <p class="text-slate-300 text-xs">Lock in dietary profiles and hydration goals.</p>
+            </div>
+
+            <!-- Diet Preference chips -->
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-slate-300 uppercase tracking-wider block">Dietary Preferences</label>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="toggleObDiet('No Preference')" class="ob-diet-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">No Preference</button>
+                <button type="button" onclick="toggleObDiet('Vegetarian')" class="ob-diet-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">Vegetarian</button>
+                <button type="button" onclick="toggleObDiet('Vegan')" class="ob-diet-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">Vegan</button>
+                <button type="button" onclick="toggleObDiet('Keto')" class="ob-diet-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">Keto</button>
+                <button type="button" onclick="toggleObDiet('Paleo')" class="ob-diet-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">Paleo</button>
+                <button type="button" onclick="toggleObDiet('Gluten-Free')" class="ob-diet-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">Gluten-Free</button>
+              </div>
+            </div>
+
+            <!-- Allergies chips -->
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-slate-300 uppercase tracking-wider block">Allergies</label>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="toggleObAllergy('Nuts')" class="ob-allergy-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">Nuts</button>
+                <button type="button" onclick="toggleObAllergy('Dairy')" class="ob-allergy-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">Dairy</button>
+                <button type="button" onclick="toggleObAllergy('Gluten')" class="ob-allergy-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">Gluten</button>
+                <button type="button" onclick="toggleObAllergy('Soy')" class="ob-allergy-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">Soy</button>
+                <button type="button" onclick="toggleObAllergy('Eggs')" class="ob-allergy-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">Eggs</button>
+                <button type="button" onclick="toggleObAllergy('None')" class="ob-allergy-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer">None</button>
+              </div>
+            </div>
+
+            <!-- Water intake goal slider -->
+            <div class="space-y-2.5">
+              <div class="flex justify-between items-baseline">
+                <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Daily Hydration Target</label>
+                <span id="ob-water-val" class="text-sm font-extrabold text-blue-400">2.5 Liters</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <i data-lucide="droplet" class="text-blue-500 w-5 h-5 flex-shrink-0"></i>
+                <input type="range" id="ob-water-slider" min="1" max="5" step="0.1" value="2.5" oninput="updateObWaterVal()" class="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-blue-500">
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 5: FINAL SUMMARY & CALCULATION ENGINE -->
+          <div id="onboarding-step-5" class="onboarding-step hidden space-y-5 animate-fade-in">
+            <div class="space-y-1.5 text-center">
+              <div class="inline-flex items-center justify-center w-12 h-12 bg-primary/20 text-primary rounded-full mb-1">
+                <i data-lucide="award" class="w-6 h-6 animate-bounce"></i>
+              </div>
+              <h3 class="font-display font-extrabold text-2xl text-white">Your Plan is Calibrated!</h3>
+              <p class="text-slate-300 text-xs">Our bio-algorithms computed your metabolic index successfully.</p>
+            </div>
+
+            <!-- Metrics Highlight grid -->
+            <div class="grid grid-cols-2 gap-4">
+              <!-- Calorie Card -->
+              <div class="p-4 bg-primary/10 border border-primary/20 rounded-2xl flex flex-col items-center justify-center text-center shadow-glow">
+                <div class="text-[10px] font-bold text-slate-300 uppercase tracking-widest mb-1">Daily Calories Target</div>
+                <div id="summary-calories" class="text-3xl font-black text-white">2,150 <span class="text-xs font-medium text-slate-400">kcal</span></div>
+                <div class="text-[9px] text-primary-light mt-1 font-semibold">Mifflin-St Jeor Formula Active</div>
+              </div>
+
+              <!-- Macros Breakdown Card -->
+              <div class="p-4 bg-white/5 border border-white/10 rounded-2xl space-y-2.5">
+                <div class="text-[10px] font-bold text-slate-300 uppercase tracking-widest text-center">Custom Macros Ratio</div>
+                <div class="grid grid-cols-3 gap-1.5 text-center">
+                  <div class="p-1 bg-white/5 rounded-lg border border-white/5">
+                    <span class="text-[8px] text-slate-400 uppercase font-bold block truncate">Protein</span>
+                    <div id="summary-prot" class="text-xs font-extrabold text-white">161g</div>
+                    <span class="text-[8px] text-primary-light font-bold">30%</span>
+                  </div>
+                  <div class="p-1 bg-white/5 rounded-lg border border-white/5">
+                    <span class="text-[8px] text-slate-400 uppercase font-bold block truncate">Carbs</span>
+                    <div id="summary-carbs" class="text-xs font-extrabold text-white">242g</div>
+                    <span class="text-[8px] text-limeAccent font-bold">45%</span>
+                  </div>
+                  <div class="p-1 bg-white/5 rounded-lg border border-white/5">
+                    <span class="text-[8px] text-slate-400 uppercase font-bold block truncate">Fats</span>
+                    <div id="summary-fats" class="text-xs font-extrabold text-white">60g</div>
+                    <span class="text-[8px] text-blue-400 font-bold">25%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info Summary Grid -->
+            <div class="bg-darkNavy-deep border border-white/5 p-4 rounded-2xl grid grid-cols-2 gap-x-6 gap-y-2.5 text-xs text-slate-300">
+              <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-500 font-bold">User:</span><span id="sum-name" class="font-bold text-white">Alex Johnson</span></div>
+              <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-500 font-bold">Goal:</span><span id="sum-goal" class="font-bold text-white">Lose Weight</span></div>
+              <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-500 font-bold">BMI:</span><span id="sum-bmi" class="font-bold text-white">23.5 (Normal)</span></div>
+              <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-500 font-bold">Height / Weight:</span><span id="sum-heightweight" class="font-bold text-white">180cm / 76kg</span></div>
+              <div class="flex justify-between col-span-2"><span class="text-slate-500 font-bold">Preferences:</span><span id="sum-prefs" class="font-bold text-white truncate max-w-[200px] text-right">Vegetarian, Nuts-free</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Wizard Navigation Footer -->
+        <div class="flex items-center justify-between border-t border-white/10 pt-4 mt-4">
+          <button type="button" onclick="prevObStep()" id="ob-btn-back" class="hidden px-5 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+          </button>
+          <div id="ob-back-placeholder" class="w-10"></div>
+
+          <button type="button" onclick="nextObStep()" id="ob-btn-next" class="px-6 py-2.5 bg-primary hover:bg-primary-dark text-white text-xs font-bold rounded-xl transition-all shadow-glow flex items-center gap-1.5 cursor-pointer">
+            Next <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: APP SHELL (HIDDEN BY DEFAULT)       -->
+    <!-- ========================================== -->
+    <div id="app-view" class="hidden min-h-screen bg-[#F8F9FA] text-slate-800 flex flex-col md:flex-row relative">
+      
+      <!-- Left Sidebar Nav (collapses to bottom bar on mobile) -->
+      <aside class="fixed bottom-0 left-0 w-full md:relative md:w-64 bg-darkNavy text-white md:min-h-screen flex flex-col justify-between z-40 shadow-xl border-t border-white/5 md:border-t-0 md:border-r md:border-white/5">
+        
+        <!-- Sidebar Brand (Desktop only) -->
+        <div class="hidden md:flex items-center space-x-3 px-6 py-8 border-b border-white/5">
+          <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-glow">
+            <i data-lucide="heart-pulse" class="text-white w-5 h-5"></i>
+          </div>
+          <span class="font-display font-bold text-xl text-white">Healthify<span class="text-primary font-bold">You</span></span>
+        </div>
+        
+        <!-- Tab Navigation Links -->
+        <nav class="flex flex-row md:flex-col justify-around md:justify-start md:space-y-1.5 p-2 md:p-4 w-full">
+          
+          <!-- Tab 1: Dashboard -->
+          <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col md:flex-row items-center space-y-1 md:space-y-0 md:space-x-3 px-3 py-2 md:py-3 md:px-4 rounded-xl text-xs md:text-sm font-semibold transition-all w-full text-slate-300 hover:text-white hover:bg-white/5 cursor-pointer">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span class="hidden sm:inline md:inline">Dashboard</span>
+          </button>
+          
+          <!-- Tab 2: Workouts -->
+          <button onclick="switchTab('workouts')" id="nav-workouts" class="flex flex-col md:flex-row items-center space-y-1 md:space-y-0 md:space-x-3 px-3 py-2 md:py-3 md:px-4 rounded-xl text-xs md:text-sm font-semibold transition-all w-full text-slate-300 hover:text-white hover:bg-white/5 cursor-pointer">
+            <i data-lucide="dumbbell" class="w-5 h-5"></i>
+            <span class="hidden sm:inline md:inline">Workouts</span>
+          </button>
+          
+          <!-- Tab 3: Meals -->
+          <button onclick="switchTab('meals')" id="nav-meals" class="flex flex-col md:flex-row items-center space-y-1 md:space-y-0 md:space-x-3 px-3 py-2 md:py-3 md:px-4 rounded-xl text-xs md:text-sm font-semibold transition-all w-full text-slate-300 hover:text-white hover:bg-white/5 cursor-pointer">
+            <i data-lucide="apple" class="w-5 h-5"></i>
+            <span class="hidden sm:inline md:inline">Meals</span>
+          </button>
+          
+          <!-- Tab 4: AI Coach -->
+          <button onclick="switchTab('aicoach')" id="nav-aicoach" class="flex flex-col md:flex-row items-center space-y-1 md:space-y-0 md:space-x-3 px-3 py-2 md:py-3 md:px-4 rounded-xl text-xs md:text-sm font-semibold transition-all w-full text-slate-300 hover:text-white hover:bg-white/5 cursor-pointer">
+            <i data-lucide="bot" class="w-5 h-5"></i>
+            <span class="hidden sm:inline md:inline">AI Coach</span>
+          </button>
+          
+          <!-- Tab 5: Profile -->
+          <button onclick="switchTab('profile')" id="nav-profile" class="flex flex-col md:flex-row items-center space-y-1 md:space-y-0 md:space-x-3 px-3 py-2 md:py-3 md:px-4 rounded-xl text-xs md:text-sm font-semibold transition-all w-full text-slate-300 hover:text-white hover:bg-white/5 cursor-pointer">
+            <i data-lucide="user" class="w-5 h-5"></i>
+            <span class="hidden sm:inline md:inline">Profile</span>
+          </button>
+          
+        </nav>
+        
+        <!-- Sidebar Bottom Settings (Desktop only) -->
+        <div class="hidden md:block p-4 border-t border-white/5">
+          <div class="flex items-center space-x-3 p-2 bg-white/5 rounded-xl">
+            <div id="sidebar-avatar-initials" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-bold text-sm text-white flex-shrink-0">
+              AJ
+            </div>
+            <div class="overflow-hidden">
+              <h5 id="sidebar-name" class="text-xs font-bold text-white truncate">Alex Johnson</h5>
+              <p id="sidebar-email" class="text-[10px] text-slate-400 truncate">alex@healthify.com</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      
+      <!-- Main Content Stage -->
+      <main class="flex-1 min-h-screen pb-24 md:pb-8 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        
+        <!-- App Header Bar -->
+        <header class="flex items-center justify-between border-b border-slate-200 pb-4 mb-6">
+          <div>
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Workspace Dashboard</div>
+            <h2 id="active-tab-title" class="font-display font-extrabold text-2xl text-slate-800">Your Health Dashboard</h2>
+          </div>
+          
+          <!-- Right utilities -->
+          <div class="flex items-center space-x-3">
+            <div class="hidden sm:flex items-center bg-slate-100 rounded-full px-3 py-1 text-xs text-slate-500 font-medium">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-2"></span>
+              <span>Sync Status: Ready</span>
+            </div>
+            
+            <button onclick="logout()" class="px-3.5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl text-sm transition-all flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+              <span class="hidden sm:inline">Sign Out</span>
+            </button>
+          </div>
+        </header>
+        
+        <!-- ========================================== -->
+        <!-- TAB 1: DASHBOARD CONTENT                   -->
+        <!-- ========================================== -->
+        <div id="tab-dashboard" class="tab-content space-y-6">
+          
+          <!-- Dynamic Personalized Welcome Banner -->
+          <div class="bg-gradient-to-r from-darkNavy to-darkNavy-light border border-white/10 rounded-2xl p-5 sm:p-6 text-white relative overflow-hidden shadow-glow">
+            <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+            <div class="absolute top-1/2 right-10 transform -translate-y-1/2 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none hidden md:block"></div>
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded-full bg-primary/20 text-primary-light text-[10px] font-extrabold uppercase tracking-wide border border-primary/20">AI Engine Calibrated</span>
+                  <span id="welcome-badge-goal" class="px-2.5 py-0.5 rounded-full bg-limeAccent/20 text-limeAccent text-[10px] font-extrabold uppercase tracking-wide border border-limeAccent/20">Lose Weight</span>
+                </div>
+                <h3 class="font-display font-extrabold text-2xl">Welcome back, <span id="welcome-user-name" class="text-primary-light">Guest</span>!</h3>
+                <p class="text-xs text-slate-300 max-w-xl">
+                  Your customized biological map is active. Today's calorie intake is calculated using the Mifflin-St Jeor equation targeting <span id="welcome-goal-text" class="font-bold text-limeAccent">weight loss</span>.
+                </p>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="text-right hidden sm:block">
+                  <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Calculated BMI</div>
+                  <div id="dashboard-bmi-val" class="text-xl font-black text-white">22.9</div>
+                  <div id="dashboard-bmi-status" class="text-[9px] font-bold text-primary">Normal Weight</div>
+                </div>
+                <div class="h-8 w-px bg-white/10 hidden sm:block"></div>
+                <button onclick="switchTab('profile')" class="px-4 py-2 bg-white/10 hover:bg-white/15 text-white rounded-xl text-xs font-bold transition-all border border-white/5 cursor-pointer">
+                  View Biological Profile
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Quick Interactive Stats Metrics -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Metric 1: Calories -->
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+              <div class="absolute top-0 left-0 h-1 bg-primary w-full"></div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Calories Burned</span>
+                <i data-lucide="flame" class="text-amber-500 w-5 h-5"></i>
+              </div>
+              <div class="flex items-baseline space-x-1">
+                <span id="metric-calories" class="text-2xl font-black text-slate-800">720</span>
+                <span class="text-xs text-slate-400">/ <span id="target-calories-label">2,400</span> kcal</span>
+              </div>
+              <!-- Mini interactive trigger -->
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-[10px] text-slate-400 font-medium">Log 200 kcal</span>
+                <button onclick="addCalories(200)" class="w-6 h-6 rounded-full bg-primary/10 hover:bg-primary/20 text-primary flex items-center justify-center transition-colors cursor-pointer">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Metric 2: Water -->
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
+              <div class="absolute top-0 left-0 h-1 bg-blue-500 w-full"></div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Water Intake</span>
+                <i data-lucide="droplet" class="text-blue-500 w-5 h-5"></i>
+              </div>
+              <div class="flex items-baseline space-x-1">
+                <span id="metric-water" class="text-2xl font-black text-slate-800">1.2</span>
+                <span class="text-xs text-slate-400">/ <span id="target-water-label">2.5</span> L</span>
+              </div>
+              <!-- Mini interactive trigger -->
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-[10px] text-slate-400 font-medium">Add Glass (250ml)</span>
+                <button onclick="addWater(0.25)" class="w-6 h-6 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-500 flex items-center justify-center transition-colors cursor-pointer">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Metric 3: Active Minutes -->
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
+              <div class="absolute top-0 left-0 h-1 bg-emerald-500 w-full"></div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Active Minutes</span>
+                <i data-lucide="clock" class="text-emerald-500 w-5 h-5"></i>
+              </div>
+              <div class="flex items-baseline space-x-1">
+                <span id="metric-active" class="text-2xl font-black text-slate-800">45</span>
+                <span class="text-xs text-slate-400">/ 60 mins</span>
+              </div>
+              <!-- Mini interactive trigger -->
+              <div class="mt-3 flex justify-between items-center">
+                <span class="text-[10px] text-slate-400 font-medium">Add 15 mins activity</span>
+                <button onclick="addActiveMinutes(15)" class="w-6 h-6 rounded-full bg-emerald-100 hover:bg-emerald-200 text-emerald-500 flex items-center justify-center transition-colors cursor-pointer">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Metric 4: Sleep -->
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
+              <div class="absolute top-0 left-0 h-1 bg-violet-500 w-full"></div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Sleep Score</span>
+                <i data-lucide="moon" class="text-violet-500 w-5 h-5"></i>
+              </div>
+              <div class="flex items-baseline space-x-1">
+                <span class="text-2xl font-black text-slate-800">88</span>
+                <span class="text-xs text-slate-400">/ 100 (Optimal)</span>
+              </div>
+              <!-- Static text for consistency -->
+              <div class="mt-3 text-[10px] text-slate-400 font-medium py-1">
+                Deep Sleep: 2h 14m • Sleep Quality: High
+              </div>
+            </div>
+            
+          </div>
+          
+          <!-- Dashed-border Placeholders for Future Features -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Placeholder Box 1 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[220px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="activity" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Daily Activity Ring & Progress Circle</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Real-time SVG charting capturing multi-metric activity rings syncs here on final telemetry release.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+            <!-- Placeholder Box 2 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[220px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="heart" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Live Heart Rate & Vitals Monitor</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Real-time streaming heartbeat rate charting and resting vascular statistics.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+            <!-- Placeholder Box 3 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[220px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Fitbit Live Stream Activity Feed</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Active feed polling wearable events, steps count, and caloric adjustments live.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+        <!-- ========================================== -->
+        <!-- TAB 2: WORKOUTS CONTENT                    -->
+        <!-- ========================================== -->
+        <div id="tab-workouts" class="tab-content hidden space-y-6">
+          
+          <!-- Interactive Workout Generator Box (High fidelity!) -->
+          <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <h3 class="font-display font-bold text-slate-800 text-lg mb-2">Dynamic AI Custom Workout Builder</h3>
+            <p class="text-slate-500 text-xs mb-4">Choose your training model. The local engine will compute an immediate workout block.</p>
+            
+            <div class="flex flex-wrap gap-3 mb-6">
+              <button onclick="generateWorkout('cardio')" class="px-4 py-2 bg-primary hover:bg-primary-dark text-white text-xs font-bold rounded-lg transition-colors cursor-pointer">Generate Cardio Plan</button>
+              <button onclick="generateWorkout('strength')" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold rounded-lg transition-colors cursor-pointer">Generate Strength Plan</button>
+              <button onclick="generateWorkout('yoga')" class="px-4 py-2 bg-violet-500 hover:bg-violet-600 text-white text-xs font-bold rounded-lg transition-colors cursor-pointer">Generate Recovery Yoga</button>
+            </div>
+            
+            <!-- Output Area -->
+            <div id="workout-generator-output" class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-sm space-y-3">
+              <p class="text-slate-400 italic">Select an option above to generate a customized AI instruction sheet.</p>
+            </div>
+          </div>
+          
+          <!-- Required Dashed Border Placeholders -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Placeholder Box 1 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[220px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="dumbbell" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">AI Suggested Workout</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Deep generative multi-day workout split recommendations synced to conditioning state.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+            <!-- Placeholder Box 2 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[220px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="library" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Exercise Library</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Form demonstration repository mapping exercises, sets, reps, and physical dynamics.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+            <!-- Placeholder Box 3 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[220px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="history" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Workout History</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Database tracking historic exercises, volumes, weights, and set variations.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+        <!-- ========================================== -->
+        <!-- TAB 3: MEALS CONTENT                       -->
+        <!-- ========================================== -->
+        <div id="tab-meals" class="tab-content hidden space-y-6">
+          
+          <!-- Interactive Macros Food Selector (High fidelity) -->
+          <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <h3 class="font-display font-bold text-slate-800 text-lg mb-2">Interactive Food & Macro Tracker</h3>
+            <p class="text-slate-500 text-xs mb-4">Select a meal item to instantly compute macronutrient and calorie distributions dynamically.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+              <!-- Item 1 -->
+              <button onclick="selectMeal('avocado')" class="p-4 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 text-left flex items-center justify-between cursor-pointer group">
+                <div>
+                  <div class="font-bold text-slate-700 text-sm group-hover:text-primary transition-colors">Avocado Sourdough Toast</div>
+                  <div class="text-[10px] text-slate-400">Healthy Fats & Clean Carbs</div>
+                </div>
+                <span class="text-xs font-bold text-slate-500">350 kcal</span>
+              </button>
+              
+              <!-- Item 2 -->
+              <button onclick="selectMeal('salmon')" class="p-4 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 text-left flex items-center justify-between cursor-pointer group">
+                <div>
+                  <div class="font-bold text-slate-700 text-sm group-hover:text-primary transition-colors">Salmon with Quinoa</div>
+                  <div class="text-[10px] text-slate-400">High Protein • Omega 3</div>
+                </div>
+                <span class="text-xs font-bold text-slate-500">580 kcal</span>
+              </button>
+              
+              <!-- Item 3 -->
+              <button onclick="selectMeal('protein')" class="p-4 bg-slate-50 hover:bg-slate-100 rounded-xl border border-slate-200 text-left flex items-center justify-between cursor-pointer group">
+                <div>
+                  <div class="font-bold text-slate-700 text-sm group-hover:text-primary transition-colors">Whey Isolate Shake</div>
+                  <div class="text-[10px] text-slate-400">Pure Post-Workout Fuel</div>
+                </div>
+                <span class="text-xs font-bold text-slate-500">180 kcal</span>
+              </button>
+            </div>
+            
+            <!-- Output Metrics -->
+            <div id="meal-tracker-output" class="bg-slate-50 rounded-xl p-4 border border-slate-200 text-sm">
+              <p class="text-slate-400 italic">Select a food item above to compute macro telemetry.</p>
+            </div>
+          </div>
+          
+          <!-- Required Dashed Border Placeholders -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Placeholder Box 1 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[220px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="pie-chart" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">AI Macro-Nutrient Breakdown Chart</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Dynamically rendered protein, carbohydrate, and dietary lipid charts compile here.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+            <!-- Placeholder Box 2 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[220px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Daily Meal Logs</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Weekly calendar maps recording breakfast, lunch, and intermediate nutritional items.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+            <!-- Placeholder Box 3 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[220px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="sparkles" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Smart Recipe Generator</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Combines ingredients inside your pantry using local AI logic to suggest quick recipes.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+        <!-- ========================================== -->
+        <!-- TAB 4: AI COACH CONTENT                    -->
+        <!-- ========================================== -->
+        <div id="tab-aicoach" class="tab-content hidden space-y-6">
+          
+          <!-- Interactive Smart Conversational Chat Agent -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-100 flex flex-col h-[480px]">
+            <!-- Agent Header -->
+            <div class="px-6 py-4 border-b border-slate-100 bg-darkNavy text-white rounded-t-xl flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary animate-pulse">
+                <i data-lucide="bot" class="text-primary w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-sm text-white">Coach HealthifyYou AI</h3>
+                <p class="text-[10px] text-slate-400 flex items-center">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary mr-1"></span> Offline Expert System
+                </p>
+              </div>
+            </div>
+            
+            <!-- Conversation Stage -->
+            <div id="chat-stage" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm bg-slate-50">
+              <!-- Initial Greeting -->
+              <div class="flex items-start space-x-2.5 max-w-[80%]">
+                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+                  H
+                </div>
+                <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm text-slate-700">
+                  Greetings, Alex! I am your HealthifyYou AI Coach. Ask me any question regarding your physical targets, meal recommendations, or Fitbit optimization tips. 
+                  <div class="mt-2 flex flex-wrap gap-1.5">
+                    <button onclick="triggerQuickChat('Should I do cardio before or after weights?')" class="text-[10px] bg-slate-100 hover:bg-primary/10 hover:text-primary px-2.5 py-1 rounded-full transition-colors font-medium">Cardio or Weights?</button>
+                    <button onclick="triggerQuickChat('Suggest a high-protein recipe.')" class="text-[10px] bg-slate-100 hover:bg-primary/10 hover:text-primary px-2.5 py-1 rounded-full transition-colors font-medium">Protein Recipe</button>
+                    <button onclick="triggerQuickChat('How does Fitbit syncing improve my targets?')" class="text-[10px] bg-slate-100 hover:bg-primary/10 hover:text-primary px-2.5 py-1 rounded-full transition-colors font-medium">Fitbit Syncing</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Input Area -->
+            <div class="p-4 border-t border-slate-100 bg-white flex items-center space-x-2 rounded-b-xl">
+              <input type="text" id="chat-input" onkeypress="handleChatKey(event)" placeholder="Ask about fat loss, macro target calculations, wearables..." class="flex-1 px-4 py-2.5 bg-slate-100 border border-slate-200 rounded-xl focus:outline-none focus:border-primary text-sm text-slate-700">
+              <button onclick="sendMessage()" class="p-2.5 bg-primary hover:bg-primary-dark text-white rounded-xl transition-all cursor-pointer shadow-glow">
+                <i data-lucide="send" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Required Dashed Border Placeholders -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Placeholder Box 1 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[200px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="activity" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Fitbit Sync Status & Live Coaching Alerts</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Real-time trigger alerts generated based on your running heart rate and active caloric burns.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+            <!-- Placeholder Box 2 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[200px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="mic" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Voice Coach Session Recorder</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Speech-to-text voice coach feedback loop to speak instructions while performing workouts.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+        <!-- ========================================== -->
+        <!-- TAB 5: PROFILE CONTENT                     -->
+        <!-- ========================================== -->
+        <div id="tab-profile" class="tab-content hidden space-y-6">
+          
+          <!-- Profile Main User Card with Active BMI Calculator -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+            <!-- Header banner -->
+            <div class="h-32 bg-gradient-to-r from-darkNavy to-primary relative"></div>
+            
+            <div class="px-6 pb-6 relative">
+              <!-- Avatar -->
+              <div class="absolute -top-12 left-6 w-24 h-24 rounded-2xl bg-white p-1 shadow-md border border-slate-100">
+                <div id="profile-avatar-initials" class="w-full h-full rounded-xl bg-slate-200 flex items-center justify-center text-slate-600 text-2xl font-black font-display border-2 border-primary">
+                  AJ
+                </div>
+              </div>
+              
+              <!-- User Details & Logout Button -->
+              <div class="pt-16 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <h3 id="profile-fullname" class="font-display font-extrabold text-2xl text-slate-800">Alex Johnson</h3>
+                  <p class="text-sm text-slate-400 flex flex-wrap items-center gap-1">
+                    <i data-lucide="mail" class="w-4 h-4"></i> <span id="profile-email">alex@healthify.com</span> • <span id="profile-type">Guest Account</span>
+                  </p>
+                  <div class="flex flex-wrap gap-2 mt-2">
+                    <span id="profile-badge-goal" class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">Goal: Stay Fit</span>
+                    <span id="profile-badge-gender" class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider">Gender: Male</span>
+                    <span id="profile-badge-dob" class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider">DOB: -</span>
+                  </div>
+                </div>
+                
+                <button onclick="logout()" class="self-start sm:self-center px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold rounded-xl text-sm transition-all flex items-center gap-2 cursor-pointer">
+                  <i data-lucide="log-out" class="w-4 h-4"></i> Log Out
+                </button>
+              </div>
+              
+              <hr class="border-slate-100 my-6">
+              
+              <!-- Real Interactive BMI Engine -->
+              <div>
+                <h4 class="font-display font-bold text-slate-800 text-base mb-2 flex items-center gap-1.5">
+                  <i data-lucide="calculator" class="text-primary w-5 h-5"></i>
+                  Interactive Profile BMI Engine
+                </h4>
+                <p class="text-slate-400 text-xs mb-6">Modify sliders to calculate your BMI and observe target categorization instantly.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                  <!-- Sliders -->
+                  <div class="space-y-5">
+                    <!-- Height Slider -->
+                    <div>
+                      <div class="flex justify-between text-sm font-bold text-slate-600 mb-1">
+                        <span>Height:</span>
+                        <span id="bmi-height-txt" class="text-primary">180 cm</span>
+                      </div>
+                      <input type="range" id="bmi-height-slider" min="120" max="220" value="180" oninput="calculateBMI()" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary">
+                    </div>
+                    
+                    <!-- Weight Slider -->
+                    <div>
+                      <div class="flex justify-between text-sm font-bold text-slate-600 mb-1">
+                        <span>Weight:</span>
+                        <span id="bmi-weight-txt" class="text-primary">76 kg</span>
+                      </div>
+                      <input type="range" id="bmi-weight-slider" min="40" max="150" value="76" oninput="calculateBMI()" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary">
+                    </div>
+                  </div>
+                  
+                  <!-- Output Display Card -->
+                  <div class="flex flex-col items-center justify-center text-center p-4 bg-white rounded-xl shadow-sm border border-slate-200">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">Calculated BMI Score</div>
+                    <div id="bmi-score-txt" class="text-4xl font-black text-slate-800 my-1">23.5</div>
+                    <div id="bmi-category-badge" class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-extrabold rounded-full">Normal (Healthy)</div>
+                    
+                    <div class="w-full bg-slate-100 h-1.5 rounded-full mt-4 overflow-hidden flex">
+                      <div class="h-full bg-blue-400" style="width: 20%"></div>
+                      <div class="h-full bg-emerald-400" style="width: 40%"></div>
+                      <div class="h-full bg-yellow-400" style="width: 20%"></div>
+                      <div class="h-full bg-red-400" style="width: 20%"></div>
+                    </div>
+                    <div class="flex justify-between w-full text-[9px] text-slate-400 mt-1">
+                      <span>Underweight</span>
+                      <span>Healthy</span>
+                      <span>Overweight</span>
+                      <span>Obese</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          
+          <!-- Required Dashed Border Placeholders -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Placeholder Box 1 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[200px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="smartphone" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Linked Devices</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Manage authorization tokens and wearable pairing rules for Fitbit, Apple Health, and Google Fit.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+            <!-- Placeholder Box 2 -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-8 bg-white/50 flex flex-col items-center justify-center text-center min-h-[200px]">
+              <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+                <i data-lucide="bell" class="w-6 h-6"></i>
+              </div>
+              <h4 class="font-display font-bold text-slate-700 text-base mb-1">Notification Preferences</h4>
+              <p class="text-xs text-slate-400 max-w-xs">
+                Configure frequency maps for email progress summaries, Fitbit tracking digests, and coach reminders.
+              </p>
+              <span class="mt-4 px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold uppercase rounded-full">Coming Soon</span>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT: VANILLA FLOW OPERATIONS        -->
+    <!-- ========================================== -->
+    <script>
+      // Initialize Lucide icons and load session on start
+      document.addEventListener("DOMContentLoaded", function() {
+        lucide.createIcons();
+        initRevealOnScroll();
+        loadSession();
+        calculateBMI(); // Init profile tab BMI slider
+      });
+
+      // State Managers
+      let currentView = 'landing'; // 'landing', 'login', 'onboarding', or 'app'
+      let activeTab = 'dashboard'; // 'dashboard', 'workouts', 'meals', 'aicoach', 'profile'
+      
+      // Dynamic Interactive Stat Milestones
+      let caloriesCount = 720;
+      let waterCount = 1.2;
+      let activeMins = 45;
+
+      // Onboarding Wizard Temporary State
+      let currentObStep = 1;
+      let obProfile = {
+        name: '',
+        dob: '',
+        gender: '',
+        height: 175, // stored in metric cm
+        weight: 70,  // stored in metric kg
+        unit: 'metric', // 'metric' or 'imperial'
+        goal: '',
+        targetWeight: '',
+        timeline: '3 Months',
+        activity: '',
+        activityMultiplier: 1.2,
+        dietaryPreferences: [],
+        allergies: [],
+        waterTarget: 2.5,
+        dailyCalorieTarget: 2000,
+        proteinTarget: 150,
+        carbsTarget: 225,
+        fatsTarget: 56,
+        bmi: 22.9,
+        bmiCategory: 'Normal (Healthy)'
+      };
+
+      // General View Routing Switch
+      function showView(viewId) {
+        document.getElementById('landing-view').classList.add('hidden');
+        document.getElementById('login-view').classList.add('hidden');
+        document.getElementById('onboarding-view').classList.add('hidden');
+        document.getElementById('app-view').classList.add('hidden');
+        document.getElementById('app-view').classList.remove('flex');
+        
+        if (viewId === 'landing') {
+          document.getElementById('landing-view').classList.remove('hidden');
+        } else if (viewId === 'login') {
+          document.getElementById('login-view').classList.remove('hidden');
+        } else if (viewId === 'onboarding') {
+          document.getElementById('onboarding-view').classList.remove('hidden');
+        } else if (viewId === 'app') {
+          document.getElementById('app-view').classList.remove('hidden');
+          document.getElementById('app-view').classList.add('flex');
+          window.scrollTo(0, 0);
+        }
+        currentView = viewId;
+      }
+
+      // Check Session & Update CTAs
+      function loadSession() {
+        const storedProfile = localStorage.getItem('userProfile');
+        if (storedProfile) {
+          try {
+            const profile = JSON.parse(storedProfile);
+            // Replace Landing Page CTAs to point straight to App Shell
+            updateLandingPageButtonsForActiveSession();
+            
+            // Hydrate App UI with saved values
+            applyProfileToAppShell(profile);
+          } catch (e) {
+            console.error('Error parsing stored session', e);
+          }
+        }
+      }
+
+      function updateLandingPageButtonsForActiveSession() {
+        // Find all "Get Started" or "Start Your Journey" buttons on Landing and update text
+        const getStartedButtons = document.querySelectorAll('button[onclick="handleGetStarted()"]');
+        getStartedButtons.forEach(btn => {
+          if (btn.textContent.trim().toLowerCase().includes('trial')) {
+            btn.textContent = 'Go to Dashboard';
+          } else if (btn.textContent.trim().toLowerCase().includes('free')) {
+            btn.textContent = 'Enter Dashboard';
+          } else {
+            btn.textContent = 'Go to Dashboard';
+          }
+        });
+      }
+
+      function applyProfileToAppShell(profile) {
+        // Initials extractor
+        const initials = profile.name ? profile.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'GP';
+        
+        // Update Sidebar Bottom Profile
+        document.getElementById('sidebar-avatar-initials').textContent = initials;
+        document.getElementById('sidebar-name').textContent = profile.name || 'Valued Guest';
+        document.getElementById('sidebar-email').textContent = profile.email || 'guest@healthify.com';
+
+        // Update Dashboard welcome card
+        document.getElementById('welcome-user-name').textContent = profile.name ? profile.name.split(' ')[0] : 'Guest';
+        document.getElementById('welcome-badge-goal').textContent = profile.goal || 'Stay Fit';
+        document.getElementById('welcome-goal-text').textContent = (profile.goal || 'fitness').toLowerCase();
+        document.getElementById('dashboard-bmi-val').textContent = profile.bmi || '22.9';
+        document.getElementById('dashboard-bmi-status').textContent = profile.bmiCategory || 'Normal Weight';
+
+        // Update Target thresholds on dashboard
+        document.getElementById('target-calories-label').textContent = profile.dailyCalorieTarget ? profile.dailyCalorieTarget.toLocaleString() : '2,000';
+        document.getElementById('target-water-label').textContent = profile.waterTarget || '2.5';
+
+        // Update Profile tab info
+        document.getElementById('profile-avatar-initials').textContent = initials;
+        document.getElementById('profile-fullname').textContent = profile.name || 'Valued Guest';
+        document.getElementById('profile-email').textContent = profile.email || 'guest@healthify.com';
+        document.getElementById('profile-type').textContent = profile.email && profile.email.includes('@gmail.com') ? 'Google Connected Account' : 'Guest Session';
+        
+        document.getElementById('profile-badge-goal').textContent = `Goal: ${profile.goal || 'Stay Fit'}`;
+        document.getElementById('profile-badge-gender').textContent = `Gender: ${profile.gender || 'Other'}`;
+        document.getElementById('profile-badge-dob').textContent = `DOB: ${profile.dob || '-'}`;
+
+        // Sync Profile page's BMI slider height & weight
+        if (profile.height && profile.weight) {
+          document.getElementById('bmi-height-slider').value = Math.round(profile.height);
+          document.getElementById('bmi-weight-slider').value = Math.round(profile.weight);
+          calculateBMI();
+        }
+      }
+
+      // Landing page primary CTA routing
+      function handleGetStarted() {
+        const storedProfile = localStorage.getItem('userProfile');
+        if (storedProfile) {
+          showView('app');
+          switchTab('dashboard');
+        } else {
+          showView('login');
+        }
+      }
+
+      // ==========================================
+      // GOOGLE AUTHENTICATION SYSTEM
+      // ==========================================
+      function openGoogleSignIn() {
+        document.getElementById('google-signin-modal').classList.remove('hidden');
+      }
+
+      function closeGoogleSignIn() {
+        document.getElementById('google-signin-modal').classList.add('hidden');
+      }
+
+      function selectGoogleAccount(name, email, initials) {
+        closeGoogleSignIn();
+        startOnboarding({
+          name: name,
+          email: email,
+          isGoogle: true
+        });
+      }
+
+      function submitCustomGoogleAccount() {
+        const nameInput = document.getElementById('custom-google-name');
+        const emailInput = document.getElementById('custom-google-email');
+        
+        if (!nameInput.value.trim()) {
+          alert('Please specify a valid account name.');
+          return;
+        }
+        if (!emailInput.value.trim() || !emailInput.value.includes('@')) {
+          alert('Please enter a valid Gmail address.');
+          return;
+        }
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        
+        closeGoogleSignIn();
+        startOnboarding({
+          name: name,
+          email: email,
+          isGoogle: true
+        });
+      }
+
+      // Guest Login Flow
+      function continueAsGuest() {
+        startOnboarding({
+          name: 'Valued Guest',
+          email: 'guest@healthify.com',
+          isGoogle: false
+        });
+      }
+
+      // ==========================================
+      // ONBOARDING WIZARD SYSTEM
+      // ==========================================
+      function startOnboarding(initialData) {
+        // Initialize wizard state
+        currentObStep = 1;
+        obProfile = {
+          name: initialData.name,
+          email: initialData.email,
+          dob: '',
+          gender: '',
+          height: 170,
+          weight: 65,
+          unit: 'metric',
+          goal: 'Stay Fit',
+          targetWeight: '',
+          timeline: '3 Months',
+          activity: 'Moderate',
+          activityMultiplier: 1.55,
+          dietaryPreferences: [],
+          allergies: [],
+          waterTarget: 2.5
+        };
+
+        // Populate fields
+        document.getElementById('ob-fullname').value = initialData.name;
+        
+        // Show wizard screen
+        showView('onboarding');
+        showObStep(1);
+      }
+
+      function showObStep(stepNum) {
+        currentObStep = stepNum;
+        
+        // Hide all steps
+        document.querySelectorAll('.onboarding-step').forEach(step => {
+          step.classList.add('hidden');
+        });
+
+        // Show selected step
+        document.getElementById(`onboarding-step-${stepNum}`).classList.remove('hidden');
+
+        // Progress text and bar
+        const progressPercentage = (stepNum / 5) * 100;
+        document.getElementById('wizard-progress-text').textContent = `Step ${stepNum} of 5`;
+        document.getElementById('wizard-progress-bar').style.width = `${progressPercentage}%`;
+
+        // Configure Back button visibility
+        const backBtn = document.getElementById('ob-btn-back');
+        const backPlaceholder = document.getElementById('ob-back-placeholder');
+        if (stepNum > 1) {
+          backBtn.classList.remove('hidden');
+          backPlaceholder.classList.add('hidden');
+        } else {
+          backBtn.classList.add('hidden');
+          backPlaceholder.classList.remove('hidden');
+        }
+
+        // Configure Next / Finish button text
+        const nextBtn = document.getElementById('ob-btn-next');
+        if (stepNum === 5) {
+          nextBtn.innerHTML = `Complete Setup <i data-lucide="check" class="w-4 h-4"></i>`;
+        } else {
+          nextBtn.innerHTML = `Next <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+        }
+        
+        lucide.createIcons();
+      }
+
+      function prevObStep() {
+        if (currentObStep > 1) {
+          showObStep(currentObStep - 1);
+        }
+      }
+
+      function nextObStep() {
+        // Validate current step before proceeding
+        if (currentObStep === 1) {
+          const fullname = document.getElementById('ob-fullname').value.trim();
+          const dob = document.getElementById('ob-dob').value;
+          
+          if (!fullname) {
+            alert('Please specify your Full Name.');
+            return;
+          }
+          if (!dob) {
+            alert('Please choose your Date of Birth.');
+            return;
+          }
+          if (!obProfile.gender) {
+            alert('Please select your gender.');
+            return;
+          }
+
+          obProfile.name = fullname;
+          obProfile.dob = dob;
+        }
+        else if (currentObStep === 2) {
+          // values captured directly from sliders/inputs on the fly
+        }
+        else if (currentObStep === 3) {
+          const targetW = document.getElementById('ob-targetweight').value;
+          if (!targetW || targetW <= 10) {
+            alert('Please insert a realistic target weight.');
+            return;
+          }
+          if (!obProfile.goal) {
+            alert('Please select a fitness profile goal.');
+            return;
+          }
+          if (!obProfile.activity) {
+            alert('Please choose your daily activity level.');
+            return;
+          }
+          obProfile.targetWeight = parseFloat(targetW);
+        }
+        else if (currentObStep === 4) {
+          // captured dietary/allergies chips
+        }
+        else if (currentObStep === 5) {
+          // Final wizard save & transit
+          completeOnboarding();
+          return;
+        }
+
+        // Advance
+        if (currentObStep < 5) {
+          const nextStep = currentObStep + 1;
+          if (nextStep === 5) {
+            calculateMetabolicTargets();
+          }
+          showObStep(nextStep);
+        }
+      }
+
+      // Step 1 Gender selectors
+      function selectObGender(gender) {
+        obProfile.gender = gender;
+        document.querySelectorAll('.ob-gender-btn').forEach(btn => {
+          btn.classList.remove('border-primary', 'bg-primary/10', 'shadow-glow');
+        });
+        const selectedBtn = document.getElementById(`gender-${gender.toLowerCase()}`);
+        if (selectedBtn) {
+          selectedBtn.classList.add('border-primary', 'bg-primary/10', 'shadow-glow');
+        }
+      }
+
+      // Step 2 Metric/Imperial toggles
+      function toggleObUnits(unitType) {
+        obProfile.unit = unitType;
+        const metricBtn = document.getElementById('unit-btn-metric');
+        const imperialBtn = document.getElementById('unit-btn-imperial');
+        const cmWrapper = document.getElementById('ob-height-metric-wrapper');
+        const ftWrapper = document.getElementById('ob-height-imperial-wrapper');
+        const weightUnitLabels = document.querySelectorAll('.ob-weight-unit');
+
+        if (unitType === 'metric') {
+          metricBtn.className = "px-2.5 py-1 text-[10px] font-bold uppercase rounded-lg bg-primary text-white transition-all cursor-pointer";
+          imperialBtn.className = "px-2.5 py-1 text-[10px] font-bold uppercase rounded-lg text-slate-400 transition-all cursor-pointer";
+          cmWrapper.classList.remove('hidden');
+          ftWrapper.classList.add('hidden');
+          
+          weightUnitLabels.forEach(el => el.textContent = 'kg');
+          
+          // Re-adjust weight ranges
+          const slider = document.getElementById('ob-weight-slider');
+          slider.min = 30;
+          slider.max = 200;
+          slider.value = Math.round(obProfile.weight);
+          document.getElementById('ob-weight-num').value = Math.round(obProfile.weight);
+        } else {
+          imperialBtn.className = "px-2.5 py-1 text-[10px] font-bold uppercase rounded-lg bg-primary text-white transition-all cursor-pointer";
+          metricBtn.className = "px-2.5 py-1 text-[10px] font-bold uppercase rounded-lg text-slate-400 transition-all cursor-pointer";
+          cmWrapper.classList.add('hidden');
+          ftWrapper.classList.remove('hidden');
+          
+          weightUnitLabels.forEach(el => el.textContent = 'lbs');
+          
+          // Re-adjust weight ranges to lbs
+          const slider = document.getElementById('ob-weight-slider');
+          slider.min = 66;
+          slider.max = 440;
+          const lbsVal = Math.round(obProfile.weight * 2.20462);
+          slider.value = lbsVal;
+          document.getElementById('ob-weight-num').value = lbsVal;
+        }
+
+        updateObBMI();
+      }
+
+      function updateObHeightFromSlider() {
+        const val = document.getElementById('ob-height-slider-cm').value;
+        document.getElementById('ob-height-num-cm').value = val;
+        obProfile.height = parseFloat(val);
+        updateObBMI();
+      }
+
+      function updateObHeightFromNum() {
+        let val = document.getElementById('ob-height-num-cm').value;
+        if (val < 100) val = 100;
+        if (val > 230) val = 230;
+        document.getElementById('ob-height-slider-cm').value = val;
+        obProfile.height = parseFloat(val);
+        updateObBMI();
+      }
+
+      // Weight
+      function updateObWeightFromSlider() {
+        const val = document.getElementById('ob-weight-slider').value;
+        document.getElementById('ob-weight-num').value = val;
+        if (obProfile.unit === 'metric') {
+          obProfile.weight = parseFloat(val);
+        } else {
+          obProfile.weight = parseFloat(val) / 2.20462;
+        }
+        updateObBMI();
+      }
+
+      function updateObWeightFromNum() {
+        let val = document.getElementById('ob-weight-num').value;
+        if (val < 30) val = 30;
+        document.getElementById('ob-weight-slider').value = val;
+        if (obProfile.unit === 'metric') {
+          obProfile.weight = parseFloat(val);
+        } else {
+          obProfile.weight = parseFloat(val) / 2.20462;
+        }
+        updateObBMI();
+      }
+
+      function updateObBMI() {
+        let hCm = 175;
+        if (obProfile.unit === 'metric') {
+          hCm = parseFloat(document.getElementById('ob-height-slider-cm').value);
+          document.getElementById('ob-height-val').textContent = `${hCm} cm`;
+        } else {
+          const ft = parseInt(document.getElementById('ob-height-ft').value);
+          const inch = parseInt(document.getElementById('ob-height-in').value);
+          hCm = (ft * 30.48) + (inch * 2.54);
+          document.getElementById('ob-height-val').textContent = `${ft} ft ${inch} in (${Math.round(hCm)} cm)`;
+        }
+
+        let wKg = 70;
+        const wVal = parseFloat(document.getElementById('ob-weight-slider').value);
+        if (obProfile.unit === 'metric') {
+          wKg = wVal;
+          document.getElementById('ob-weight-val').textContent = `${wVal} kg`;
+        } else {
+          wKg = wVal / 2.20462;
+          document.getElementById('ob-weight-val').textContent = `${wVal} lbs (${Math.round(wKg)} kg)`;
+        }
+
+        // Apply back to state
+        obProfile.height = hCm;
+        obProfile.weight = wKg;
+
+        // BMI Formula
+        const heightMeters = hCm / 100;
+        const bmi = parseFloat((wKg / (heightMeters * heightMeters)).toFixed(1));
+        obProfile.bmi = bmi;
+
+        // Update step UI
+        document.getElementById('ob-bmi-score').textContent = bmi;
+        const badge = document.getElementById('ob-bmi-badge');
+        
+        if (bmi < 18.5) {
+          obProfile.bmiCategory = 'Underweight';
+          badge.textContent = "Underweight";
+          badge.className = "px-3 py-1 text-[11px] font-extrabold rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/20";
+        } else if (bmi >= 18.5 && bmi < 25) {
+          obProfile.bmiCategory = 'Normal (Healthy)';
+          badge.textContent = "Normal (Healthy)";
+          badge.className = "px-3 py-1 text-[11px] font-extrabold rounded-full bg-primary/20 text-primary-light border border-primary/20";
+        } else if (bmi >= 25 && bmi < 30) {
+          obProfile.bmiCategory = 'Overweight';
+          badge.textContent = "Overweight";
+          badge.className = "px-3 py-1 text-[11px] font-extrabold rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/20";
+        } else {
+          obProfile.bmiCategory = 'Obese';
+          badge.textContent = "Obese";
+          badge.className = "px-3 py-1 text-[11px] font-extrabold rounded-full bg-red-500/20 text-red-400 border border-red-500/20";
+        }
+      }
+
+      // Step 3 Goal selector
+      function selectObGoal(goal) {
+        obProfile.goal = goal;
+        document.querySelectorAll('.ob-goal-btn').forEach(btn => {
+          btn.classList.remove('border-primary', 'bg-primary/10', 'scale-[1.03]');
+        });
+        
+        let idMap = {
+          'Lose Weight': 'ob-goal-lose',
+          'Build Muscle': 'ob-goal-build',
+          'Stay Fit': 'ob-goal-stay',
+          'Improve Endurance': 'ob-goal-endure',
+          'Gain Weight': 'ob-goal-gain'
+        };
+        const selectedBtn = document.getElementById(idMap[goal]);
+        if (selectedBtn) {
+          selectedBtn.classList.add('border-primary', 'bg-primary/10', 'scale-[1.03]');
+        }
+      }
+
+      function selectObTimeline(timeline) {
+        obProfile.timeline = timeline;
+        document.querySelectorAll('.ob-time-btn').forEach(btn => {
+          btn.classList.remove('bg-primary', 'border-primary');
+        });
+        
+        let map = { '1 Month': 'time-1', '3 Months': 'time-3', '6 Months': 'time-6', '12 Months': 'time-12' };
+        const selectedBtn = document.getElementById(map[timeline]);
+        if (selectedBtn) {
+          selectedBtn.classList.add('bg-primary', 'border-primary');
+        }
+      }
+
+      function selectObActivity(activity, multiplier) {
+        obProfile.activity = activity;
+        obProfile.activityMultiplier = multiplier;
+        document.querySelectorAll('.ob-act-btn').forEach(btn => {
+          btn.classList.remove('border-primary', 'bg-primary/10');
+        });
+        
+        let map = { 'Sedentary': 'act-sedentary', 'Light': 'act-light', 'Moderate': 'act-moderate', 'Very Active': 'act-very', 'Athlete': 'act-athlete' };
+        const selectedBtn = document.getElementById(map[activity]);
+        if (selectedBtn) {
+          selectedBtn.classList.add('border-primary', 'bg-primary/10');
+        }
+      }
+
+      // Step 4 dietary and allergy preferences chips toggles
+      function toggleObDiet(diet) {
+        const index = obProfile.dietaryPreferences.indexOf(diet);
+        if (index > -1) {
+          obProfile.dietaryPreferences.splice(index, 1);
+        } else {
+          obProfile.dietaryPreferences.push(diet);
+        }
+
+        // Highlight
+        document.querySelectorAll('.ob-diet-chip').forEach(btn => {
+          if (obProfile.dietaryPreferences.includes(btn.textContent.trim())) {
+            btn.className = "ob-diet-chip px-3.5 py-1.5 bg-primary border border-primary rounded-full text-xs font-semibold text-white transition-all cursor-pointer";
+          } else {
+            btn.className = "ob-diet-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer";
+          }
+        });
+      }
+
+      function toggleObAllergy(allergy) {
+        const index = obProfile.allergies.indexOf(allergy);
+        if (index > -1) {
+          obProfile.allergies.splice(index, 1);
+        } else {
+          obProfile.allergies.push(allergy);
+        }
+
+        // Highlight
+        document.querySelectorAll('.ob-allergy-chip').forEach(btn => {
+          if (obProfile.allergies.includes(btn.textContent.trim())) {
+            btn.className = "ob-allergy-chip px-3.5 py-1.5 bg-primary border border-primary rounded-full text-xs font-semibold text-white transition-all cursor-pointer";
+          } else {
+            btn.className = "ob-allergy-chip px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-xs font-semibold text-white transition-all cursor-pointer";
+          }
+        });
+      }
+
+      function updateObWaterVal() {
+        const val = document.getElementById('ob-water-slider').value;
+        document.getElementById('ob-water-val').textContent = `${val} Liters`;
+        obProfile.waterTarget = parseFloat(val);
+      }
+
+      // METABOLIC CALCULATION ENGINE (Mifflin-St Jeor)
+      function calculateMetabolicTargets() {
+        // DOB to Age convertor
+        let ageYears = 28;
+        if (obProfile.dob) {
+          const dobDate = new Date(obProfile.dob);
+          const ageDifMs = Date.now() - dobDate.getTime();
+          const ageDate = new Date(ageDifMs);
+          ageYears = Math.abs(ageDate.getUTCFullYear() - 1970);
+        }
+        if (isNaN(ageYears) || ageYears < 1) ageYears = 28;
+
+        // BMR calculations
+        let bmr = (10 * obProfile.weight) + (6.25 * obProfile.height) - (5 * ageYears);
+        if (obProfile.gender === 'Male') {
+          bmr += 5;
+        } else if (obProfile.gender === 'Female') {
+          bmr -= 161;
+        } else {
+          bmr -= 78; // average default s offset
+        }
+
+        // TDEE calories
+        let calorieTarget = Math.round(bmr * obProfile.activityMultiplier);
+
+        // Adjust based on Goal
+        if (obProfile.goal === 'Lose Weight') {
+          calorieTarget -= 500;
+          if (calorieTarget < 1200) calorieTarget = 1200; // safe baseline
+        } else if (obProfile.goal === 'Build Muscle') {
+          calorieTarget += 300;
+        } else if (obProfile.goal === 'Gain Weight') {
+          calorieTarget += 500;
+        }
+
+        // Macro breakdown
+        // 30% Protein (4 kcal/g), 45% Carbs (4 kcal/g), 25% Fats (9 kcal/g)
+        const proteinGrams = Math.round((calorieTarget * 0.30) / 4);
+        const carbsGrams = Math.round((calorieTarget * 0.45) / 4);
+        const fatsGrams = Math.round((calorieTarget * 0.25) / 9);
+
+        // Save to state
+        obProfile.dailyCalorieTarget = calorieTarget;
+        obProfile.proteinTarget = proteinGrams;
+        obProfile.carbsTarget = carbsGrams;
+        obProfile.fatsTarget = fatsGrams;
+
+        // Populate summary DOM fields
+        document.getElementById('summary-calories').innerHTML = `${calorieTarget.toLocaleString()} <span class="text-xs font-medium text-slate-400">kcal/day</span>`;
+        document.getElementById('summary-prot').textContent = `${proteinGrams}g`;
+        document.getElementById('summary-carbs').textContent = `${carbsGrams}g`;
+        document.getElementById('summary-fats').textContent = `${fatsGrams}g`;
+
+        document.getElementById('sum-name').textContent = obProfile.name;
+        document.getElementById('sum-goal').textContent = obProfile.goal;
+        document.getElementById('sum-bmi').textContent = `${obProfile.bmi} (${obProfile.bmiCategory})`;
+        
+        const hLabel = `${Math.round(obProfile.height)}cm`;
+        const wLabel = obProfile.unit === 'metric' ? `${Math.round(obProfile.weight)}kg` : `${Math.round(obProfile.weight * 2.20462)}lbs`;
+        document.getElementById('sum-heightweight').textContent = `${hLabel} / ${wLabel}`;
+
+        const preferencesCombined = [];
+        if (obProfile.dietaryPreferences.length > 0) {
+          preferencesCombined.push(obProfile.dietaryPreferences.join(', '));
+        }
+        if (obProfile.allergies.length > 0) {
+          preferencesCombined.push(`Allergies: ${obProfile.allergies.join(', ')}`);
+        }
+        document.getElementById('sum-prefs').textContent = preferencesCombined.length > 0 ? preferencesCombined.join(' | ') : 'None specified';
+      }
+
+      function completeOnboarding() {
+        // Save to LocalStorage
+        localStorage.setItem('userProfile', JSON.stringify(obProfile));
+        
+        // Setup visual updates
+        updateLandingPageButtonsForActiveSession();
+        applyProfileToAppShell(obProfile);
+
+        // Trigger transition to App Shell
+        showView('app');
+        switchTab('dashboard');
+        
+        // Show floating feedback notification
+        createFloatingNotification('Onboarding setup completed successfully!');
+      }
+
+      // ==========================================
+      // STICKY NAVBAR AND SCROLL REVEALS
+      // ==========================================
+      window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('navbar');
+        if (!navbar) return;
+        if (window.scrollY > 50) {
+          navbar.classList.add('py-2', 'shadow-2xl', 'bg-darkNavy-deep/95');
+          navbar.classList.remove('py-4', 'bg-darkNavy/85');
+        } else {
+          navbar.classList.add('py-4', 'bg-darkNavy/85');
+          navbar.classList.remove('py-2', 'shadow-2xl', 'bg-darkNavy-deep/95');
+        }
+      });
+
+      // Mobile Menu Trigger
+      function toggleMobileMenu() {
+        const drawer = document.getElementById('mobile-drawer');
+        const icon = document.getElementById('hamburger-icon');
+        if (drawer.classList.contains('hidden')) {
+          drawer.classList.remove('hidden');
+          icon.setAttribute('data-lucide', 'x');
+        } else {
+          drawer.classList.add('hidden');
+          icon.setAttribute('data-lucide', 'menu');
+        }
+        lucide.createIcons();
+      }
+
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      if (menuBtn) {
+        menuBtn.addEventListener('click', toggleMobileMenu);
+      }
+
+      // Smooth Fade-In on Scroll
+      function initRevealOnScroll() {
+        const reveals = document.querySelectorAll('.reveal');
+        
+        function reveal() {
+          const windowHeight = window.innerHeight;
+          const revealPoint = 150;
+          
+          reveals.forEach(el => {
+            const revealTop = el.getBoundingClientRect().top;
+            if (revealTop < windowHeight - revealPoint) {
+              el.classList.add('active');
+            }
+          });
+        }
+        
+        window.addEventListener('scroll', reveal);
+        reveal(); // Run once immediately
+      }
+
+      // View Switching Transitions
+      function enterAppShell() {
+        // Session aware routing fallback
+        handleGetStarted();
+      }
+
+      function logout() {
+        // Wipe local storage
+        localStorage.removeItem('userProfile');
+        
+        // Reset Landing page CTAs
+        const getStartedButtons = document.querySelectorAll('button[onclick="handleGetStarted()"]');
+        getStartedButtons.forEach(btn => {
+          if (btn.textContent.trim().toLowerCase().includes('dashboard')) {
+            if (btn.classList.contains('px-10')) {
+              btn.textContent = 'Claim Your 14-Day Free Trial';
+            } else if (btn.classList.contains('w-full')) {
+              btn.textContent = 'Get Started Free';
+            } else {
+              btn.textContent = 'Get Started';
+            }
+          }
+        });
+
+        // Hide and show
+        showView('landing');
+        createFloatingNotification('Logged out successfully.');
+      }
+
+      // Tab Nav System
+      function switchTab(tabId) {
+        activeTab = tabId;
+        
+        // Hide all tab content
+        document.querySelectorAll('.tab-content').forEach(element => {
+          element.classList.add('hidden');
+        });
+        
+        // Remove active styling from all side/bottom tabs
+        document.querySelectorAll('aside nav button').forEach(button => {
+          button.classList.remove('bg-primary', 'text-white', 'text-primary');
+          button.classList.add('text-slate-300', 'hover:bg-white/5');
+        });
+
+        // Show targets
+        document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+        
+        // Add active style to matching nav link
+        const navBtn = document.getElementById(`nav-${tabId}`);
+        if (navBtn) {
+          navBtn.classList.remove('text-slate-300', 'hover:bg-white/5');
+          navBtn.classList.add('bg-primary', 'text-white');
+        }
+        
+        // Update main header title
+        const titles = {
+          dashboard: "Your Health Dashboard",
+          workouts: "AI Personal Trainer",
+          meals: "Nutritional Planner",
+          aicoach: "AI Chat Coach FitBit",
+          profile: "User Profile"
+        };
+        document.getElementById('active-tab-title').textContent = titles[tabId];
+        
+        // Re-compile icons
+        lucide.createIcons();
+      }
+
+      // Stat Metric Increments
+      function addCalories(amount) {
+        caloriesCount += amount;
+        document.getElementById('metric-calories').textContent = caloriesCount;
+        // visual notification
+        createFloatingNotification(`+${amount} kcal Added`);
+      }
+
+      function addWater(amount) {
+        waterCount = parseFloat((waterCount + amount).toFixed(2));
+        document.getElementById('metric-water').textContent = waterCount;
+        createFloatingNotification(`+${amount * 1000} ml Hydrated`);
+      }
+
+      function addActiveMinutes(amount) {
+        activeMins += amount;
+        document.getElementById('metric-active').textContent = activeMins;
+        createFloatingNotification(`+${amount} active mins recorded`);
+      }
+
+      function createFloatingNotification(text) {
+        const notification = document.createElement('div');
+        notification.className = "fixed bottom-24 right-6 bg-primary text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-glow z-50 transform translate-y-4 opacity-0 transition-all duration-300";
+        notification.textContent = text;
+        document.body.appendChild(notification);
+        
+        // Trigger transit
+        setTimeout(() => {
+          notification.classList.remove('translate-y-4', 'opacity-0');
+        }, 10);
+        
+        // Clean out
+        setTimeout(() => {
+          notification.classList.add('translate-y-4', 'opacity-0');
+          setTimeout(() => {
+            notification.remove();
+          }, 300);
+        }, 2200);
+      }
+
+      // Workout generator algorithm
+      function generateWorkout(type) {
+        const output = document.getElementById('workout-generator-output');
+        let content = '';
+        
+        if (type === 'cardio') {
+          content = `
+            <div class="space-y-2">
+              <div class="flex items-center space-x-2 text-primary">
+                <i data-lucide="flame" class="w-5 h-5"></i>
+                <span class="font-bold">AI Generated HIIT Cardio Plan (Active Zone Scale)</span>
+              </div>
+              <p class="text-xs text-slate-500">Formulated for rapid cardiac expansion and maximal calorie burn rate.</p>
+              <ul class="list-disc list-inside space-y-1 text-xs text-slate-700 pl-2">
+                <li><strong class="text-slate-900">Warm Up:</strong> 5 mins dynamic joint rolls</li>
+                <li><strong class="text-slate-900">Sprint Intervals:</strong> 10x (30 sec sprint max effort, 60 sec jog)</li>
+                <li><strong class="text-slate-900">Core Finisher:</strong> 3 sets of 45-sec plank & 20 flutter kicks</li>
+                <li><strong class="text-slate-900">Cooldown:</strong> 5 mins static hamstring stretches</li>
+              </ul>
+              <div class="text-[10px] text-slate-400 pt-1">Estimated duration: 25 mins • Intensity: High</div>
+            </div>
+          `;
+        } else if (type === 'strength') {
+          content = `
+            <div class="space-y-2">
+              <div class="flex items-center space-x-2 text-blue-500">
+                <i data-lucide="dumbbell" class="w-5 h-5"></i>
+                <span class="font-bold">AI Generated Muscle Hypertrophy Plan (Push-Split)</span>
+              </div>
+              <p class="text-xs text-slate-500">Formulated to expand lean contractile tissues and athletic power.</p>
+              <ul class="list-disc list-inside space-y-1 text-xs text-slate-700 pl-2">
+                <li><strong class="text-slate-900">Incline Dumbbell Press:</strong> 4 sets x 10, 8, 8, 6 reps (RPE 8)</li>
+                <li><strong class="text-slate-900">Overhead Dumbbell Press:</strong> 3 sets x 10 reps (Shoulder focus)</li>
+                <li><strong class="text-slate-900">Tricep Overhead Extension:</strong> 3 sets x 12 reps</li>
+                <li><strong class="text-slate-900">Decline Push-ups:</strong> 3 sets x max reps (Failure finish)</li>
+              </ul>
+              <div class="text-[10px] text-slate-400 pt-1">Estimated duration: 45 mins • Rest time: 90 secs</div>
+            </div>
+          `;
+        } else if (type === 'yoga') {
+          content = `
+            <div class="space-y-2">
+              <div class="flex items-center space-x-2 text-violet-500">
+                <i data-lucide="leaf" class="w-5 h-5"></i>
+                <span class="font-bold">AI Generated Active Recovery & Alignment Yoga</span>
+              </div>
+              <p class="text-xs text-slate-500">Formulated to clear vascular waste and optimize stretch thresholds.</p>
+              <ul class="list-disc list-inside space-y-1 text-xs text-slate-700 pl-2">
+                <li><strong class="text-slate-900">Sun Salutations (Surya Namaskar):</strong> 5 continuous flows</li>
+                <li><strong class="text-slate-900">Downward Facing Dog holding:</strong> 5 deep abdominal breaths</li>
+                <li><strong class="text-slate-900">Warrior II (Virabhadrasana II):</strong> 30 seconds hold each side</li>
+                <li><strong class="text-slate-900">Savasana Pose:</strong> 5 minutes complete neurological reset</li>
+              </ul>
+              <div class="text-[10px] text-slate-400 pt-1">Estimated duration: 20 mins • Intensity: Low / Therapeutic</div>
+            </div>
+          `;
+        }
+        
+        output.innerHTML = content;
+        lucide.createIcons();
+      }
+
+      // Meal Macro Tracker Calculation
+      function selectMeal(food) {
+        const output = document.getElementById('meal-tracker-output');
+        let details = '';
+        
+        if (food === 'avocado') {
+          details = `
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-800">Avocado Sourdough Toast (1 Serving)</span>
+                <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">350 kcal</span>
+              </div>
+              <p class="text-xs text-slate-500">Rich in healthy monounsaturated fats and dynamic complex starches for consistent stamina.</p>
+              <div class="grid grid-cols-3 gap-2 pt-2 text-center">
+                <div class="bg-white p-2 rounded-lg border border-slate-200">
+                  <div class="text-[10px] text-slate-400 font-bold uppercase">Carbs</div>
+                  <div class="font-extrabold text-slate-800 text-sm">34g</div>
+                </div>
+                <div class="bg-white p-2 rounded-lg border border-slate-200">
+                  <div class="text-[10px] text-slate-400 font-bold uppercase">Protein</div>
+                  <div class="font-extrabold text-slate-800 text-sm">9g</div>
+                </div>
+                <div class="bg-white p-2 rounded-lg border border-slate-200">
+                  <div class="text-[10px] text-slate-400 font-bold uppercase">Fats</div>
+                  <div class="font-extrabold text-slate-800 text-sm">18g</div>
+                </div>
+              </div>
+              <div class="flex justify-end pt-3">
+                <button onclick="addCalories(350); createFloatingNotification('350 kcal Logged');" class="px-3.5 py-1.5 bg-primary hover:bg-primary-dark text-white font-bold text-xs rounded-lg transition-colors cursor-pointer">
+                  Log This Meal
+                </button>
+              </div>
+            </div>
+          `;
+        } else if (food === 'salmon') {
+          details = `
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-800">Pan-Seared Salmon with Quinoa</span>
+                <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">580 kcal</span>
+              </div>
+              <p class="text-xs text-slate-500">High concentrations of muscle-building clean protein and recovery omega fatty acids.</p>
+              <div class="grid grid-cols-3 gap-2 pt-2 text-center">
+                <div class="bg-white p-2 rounded-lg border border-slate-200">
+                  <div class="text-[10px] text-slate-400 font-bold uppercase">Carbs</div>
+                  <div class="font-extrabold text-slate-800 text-sm">48g</div>
+                </div>
+                <div class="bg-white p-2 rounded-lg border border-slate-200">
+                  <div class="text-[10px] text-slate-400 font-bold uppercase">Protein</div>
+                  <div class="font-extrabold text-slate-800 text-sm">42g</div>
+                </div>
+                <div class="bg-white p-2 rounded-lg border border-slate-200">
+                  <div class="text-[10px] text-slate-400 font-bold uppercase">Fats</div>
+                  <div class="font-extrabold text-slate-800 text-sm">22g</div>
+                </div>
+              </div>
+              <div class="flex justify-end pt-3">
+                <button onclick="addCalories(580); createFloatingNotification('580 kcal Logged');" class="px-3.5 py-1.5 bg-primary hover:bg-primary-dark text-white font-bold text-xs rounded-lg transition-colors cursor-pointer">
+                  Log This Meal
+                </button>
+              </div>
+            </div>
+          `;
+        } else if (food === 'protein') {
+          details = `
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-800">Whey Isolate Shake (Water Mix)</span>
+                <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">180 kcal</span>
+              </div>
+              <p class="text-xs text-slate-500">Pure, fast-absorbing isolated protein with minimal carbohydrate overheads.</p>
+              <div class="grid grid-cols-3 gap-2 pt-2 text-center">
+                <div class="bg-white p-2 rounded-lg border border-slate-200">
+                  <div class="text-[10px] text-slate-400 font-bold uppercase">Carbs</div>
+                  <div class="font-extrabold text-slate-800 text-sm">3g</div>
+                </div>
+                <div class="bg-white p-2 rounded-lg border border-slate-200">
+                  <div class="text-[10px] text-slate-400 font-bold uppercase">Protein</div>
+                  <div class="font-extrabold text-slate-800 text-sm">35g</div>
+                </div>
+                <div class="bg-white p-2 rounded-lg border border-slate-200">
+                  <div class="text-[10px] text-slate-400 font-bold uppercase">Fats</div>
+                  <div class="font-extrabold text-slate-800 text-sm">2g</div>
+                </div>
+              </div>
+              <div class="flex justify-end pt-3">
+                <button onclick="addCalories(180); createFloatingNotification('180 kcal Logged');" class="px-3.5 py-1.5 bg-primary hover:bg-primary-dark text-white font-bold text-xs rounded-lg transition-colors cursor-pointer">
+                  Log This Meal
+                </button>
+              </div>
+            </div>
+          `;
+        }
+        
+        output.innerHTML = details;
+      }
+
+      // Offline AI Conversational Coach Chat Logic
+      const chatResponses = {
+        cardio: "For absolute optimal body fat loss combined with preservation of skeletal muscle mass, I strongly recommend performing your high-intensity cardio AFTER weights. Weightlifting depletes your physical glycogen caches first, forcing your body to target stored lipids (fat) directly during your cardio cycle.",
+        protein: "An excellent high-protein recipe option: Pan-seared wild Salmon (42g protein) served with warm white Quinoa (8g protein) and custom steamed Asparagus drizzled in olive oil. It yields massive recovery minerals and is completed under 15 minutes.",
+        fitbit: "By syncing Fitbit directly, our AI Coach models capture live resting vascular trends, real-time stress markers, active workout zones, and overall deep sleep cycles. This allows the generator to immediately alter workout loads for the following morning.",
+        default: "That is an excellent point! To formulate a precise answer, ensure your height, weight, and active goals are configured in the Profile tab. Let me know if you would like me to generate a custom nutrition recommendation sheet based on this."
+      };
+
+      function triggerQuickChat(promptText) {
+        document.getElementById('chat-input').value = promptText;
+        sendMessage();
+      }
+
+      function handleChatKey(event) {
+        if (event.key === 'Enter') {
+          sendMessage();
+        }
+      }
+
+      function sendMessage() {
+        const inputEl = document.getElementById('chat-input');
+        const queryText = inputEl.value.trim();
+        if (!queryText) return;
+
+        // Clear input
+        inputEl.value = '';
+
+        // Print User Bubble
+        const chatStage = document.getElementById('chat-stage');
+        const userBubble = document.createElement('div');
+        userBubble.className = "flex items-start justify-end space-x-2.5 max-w-[85%] ml-auto";
+        userBubble.innerHTML = `
+          <div class="bg-primary text-white p-3.5 rounded-2xl rounded-tr-none shadow-sm text-slate-100">
+            ${queryText}
+          </div>
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-bold text-white flex-shrink-0">
+            AJ
+          </div>
+        `;
+        chatStage.appendChild(userBubble);
+        chatStage.scrollTop = chatStage.scrollHeight;
+
+        // Simulate typing delays
+        const botLoadingBubble = document.createElement('div');
+        botLoadingBubble.className = "flex items-start space-x-2.5 max-w-[80%]";
+        botLoadingBubble.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center text-primary flex-shrink-0 font-bold">
+            H
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm text-slate-400 italic">
+            Coach is computing answer...
+          </div>
+        `;
+        
+        setTimeout(() => {
+          chatStage.appendChild(botLoadingBubble);
+          chatStage.scrollTop = chatStage.scrollHeight;
+
+          setTimeout(() => {
+            botLoadingBubble.remove();
+            
+            // Map keyword response
+            let replyText = chatResponses.default;
+            const lowercaseQuery = queryText.toLowerCase();
+            
+            if (lowercaseQuery.includes('cardio') || lowercaseQuery.includes('weights')) {
+              replyText = chatResponses.cardio;
+            } else if (lowercaseQuery.includes('protein') || lowercaseQuery.includes('recipe') || lowercaseQuery.includes('diet')) {
+              replyText = chatResponses.protein;
+            } else if (lowercaseQuery.includes('fitbit') || lowercaseQuery.includes('sync') || lowercaseQuery.includes('wearable')) {
+              replyText = chatResponses.fitbit;
+            }
+
+            const botReplyBubble = document.createElement('div');
+            botReplyBubble.className = "flex items-start space-x-2.5 max-w-[80%] animate-fade-in";
+            botReplyBubble.innerHTML = `
+              <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 font-bold">
+                H
+              </div>
+              <div class="bg-white p-3.5 rounded-2xl rounded-tl-none shadow-sm text-slate-700">
+                ${replyText}
+              </div>
+            `;
+            chatStage.appendChild(botReplyBubble);
+            chatStage.scrollTop = chatStage.scrollHeight;
+          }, 1000);
+
+        }, 300);
+      }
+
+      // Profile BMI Calculator engine
+      function calculateBMI() {
+        const heightSlider = document.getElementById('bmi-height-slider');
+        const weightSlider = document.getElementById('bmi-weight-slider');
+        
+        const heightCm = parseFloat(heightSlider.value);
+        const weightKg = parseFloat(weightSlider.value);
+        
+        // Update label text
+        document.getElementById('bmi-height-txt').textContent = `${heightCm} cm`;
+        document.getElementById('bmi-weight-txt').textContent = `${weightKg} kg`;
+        
+        // Compute BMI
+        const heightMeters = heightCm / 100;
+        const bmi = parseFloat((weightKg / (heightMeters * heightMeters)).toFixed(1));
+        
+        // Update score display
+        document.getElementById('bmi-score-txt').textContent = bmi;
+        
+        // Update category indicator badge
+        const badge = document.getElementById('bmi-category-badge');
+        if (bmi < 18.5) {
+          badge.textContent = "Underweight";
+          badge.className = "px-3 py-1 bg-blue-100 text-blue-700 text-xs font-extrabold rounded-full";
+        } else if (bmi >= 18.5 && bmi < 25) {
+          badge.textContent = "Normal (Healthy)";
+          badge.className = "px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-extrabold rounded-full";
+        } else if (bmi >= 25 && bmi < 30) {
+          badge.textContent = "Overweight";
+          badge.className = "px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-extrabold rounded-full";
+        } else {
+          badge.textContent = "Obese";
+          badge.className = "px-3 py-1 bg-red-100 text-red-700 text-xs font-extrabold rounded-full";
+        }
+      }
+    </script>
+  </body>
+</html>
